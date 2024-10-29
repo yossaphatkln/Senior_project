@@ -1,0 +1,29 @@
+<launch>
+    <!-- Argument to pass the Xacro file path -->
+    <arg name="model" default="$(find rocker_bogie)/urdf/rocker_bogie.urdf.xacro" />
+
+    <!-- Generate robot_description parameter from Xacro -->
+    <param name="robot_description" 
+           command="$(find xacro)/xacro --inorder $(arg model)" />
+
+    <!-- Launch the robot_state_publisher to publish transforms -->
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" output="screen" />
+
+    <!-- Launch the joint_state_publisher to publish joint states -->
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" output="screen" />
+
+    <!-- Add a static transform publisher to align the base_link above ground -->
+    <node pkg="tf2_ros" type="static_transform_publisher" name="base_link_offset"
+          args="0 0 0.2 0 0 0 map base_link" />
+
+    <!-- Launch an empty Gazebo world -->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="paused" value="false" />
+        <arg name="use_sim_time" value="true" />  <!-- Sync with ROS clock -->
+    </include>
+
+    <!-- Spawn the rocker-bogie robot into Gazebo -->
+    <node name="spawn_rocker_bogie" pkg="gazebo_ros" type="spawn_model" 
+          args="-urdf -param robot_description -model rocker_bogie -x 0 -y 0 -z 0.2" 
+          output="screen" />
+</launch>

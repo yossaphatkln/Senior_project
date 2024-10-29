@@ -1,0 +1,325 @@
+<?xml version="1.0"?>
+<robot name="rocker_bogie_rover">
+
+  <!-- Chassis -->
+  <link name="chassis">
+    <visual>
+      <geometry>
+        <box size="0.6 0.4 0.2"/> <!-- Chassis dimensions -->
+      </geometry>
+      <origin xyz="0 0 0.15"/> <!-- Lifted above the ground -->
+      <material name="green">
+        <color rgba="0 1 0 1"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.6 0.4 0.2"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="10"/>
+      <inertia ixx="0.02" ixy="0" ixz="0" iyy="0.02" iyz="0" izz="0.04"/>
+      <origin xyz="0 0 0.15"/>
+    </inertial>
+  </link>
+
+  <!-- Rocker Arm - Left -->
+  <link name="rocker_left">
+    <visual>
+      <geometry>
+        <box size="0.8 0.05 0.05"/> <!-- Extended rocker arm dimensions -->
+      </geometry>
+      <origin xyz="0.4 0 0"/> <!-- Correct alignment with chassis -->
+      <material name="blue">
+        <color rgba="0 0 1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.8 0.05 0.05"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="3"/>
+      <inertia ixx="0.003" ixy="0" ixz="0" iyy="0.003" iyz="0" izz="0.006"/>
+      <origin xyz="0.4 0 0"/>
+    </inertial>
+  </link>
+
+  <!-- Rocker Arm - Right -->
+  <link name="rocker_right">
+    <visual>
+      <geometry>
+        <box size="0.8 0.05 0.05"/> <!-- Extended rocker arm dimensions -->
+      </geometry>
+      <origin xyz="0.4 0 0"/> <!-- Correct alignment with chassis -->
+      <material name="blue"/>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.8 0.05 0.05"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="3"/>
+      <inertia ixx="0.003" ixy="0" ixz="0" iyy="0.003" iyz="0" izz="0.006"/>
+      <origin xyz="0.4 0 0"/>
+    </inertial>
+  </link>
+
+  <!-- Bogie Arm - Left -->
+  <link name="bogie_left">
+    <visual>
+      <geometry>
+        <box size="0.4 0.05 0.05"/> <!-- Bogie arm dimensions -->
+      </geometry>
+      <origin xyz="0.25 0 0"/> <!-- Correct alignment with rocker -->
+      <material name="orange">
+        <color rgba="1 0.5 0 1"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.4 0.05 0.05"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="2"/>
+      <inertia ixx="0.002" ixy="0" ixz="0" iyy="0.002" iyz="0" izz="0.004"/>
+      <origin xyz="0.25 0 0"/>
+    </inertial>
+  </link>
+
+  <!-- Bogie Arm - Right -->
+  <link name="bogie_right">
+    <visual>
+      <geometry>
+        <box size="0.4 0.05 0.05"/> <!-- Bogie arm dimensions -->
+      </geometry>
+      <origin xyz="0.25 0 0"/> <!-- Correct alignment with rocker -->
+      <material name="orange"/>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.4 0.05 0.05"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="2"/>
+      <inertia ixx="0.002" ixy="0" ixz="0" iyy="0.002" iyz="0" izz="0.004"/>
+      <origin xyz="0.25 0 0"/>
+    </inertial>
+  </link>
+
+  <!-- Wheels -->
+  <!-- Front Left Wheel -->
+  <link name="wheel_front_left">
+    <visual>
+      <geometry>
+        <cylinder radius="0.1" length="0.05"/> <!-- Wheel dimensions -->
+      </geometry>
+      <origin xyz="0.35 0.3 -0.15" rpy="0 1.5708 0"/> <!-- Correct upright orientation -->
+      <material name="gray">
+        <color rgba="0.3 0.3 0.3 1"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder radius="0.1" length="0.05"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1"/>
+      <inertia ixx="0.0005" ixy="0" ixz="0" iyy="0.0005" iyz="0" izz="0.001"/>
+      <origin xyz="0 0 0"/>
+    </inertial>
+  </link>
+
+  <!-- Front Right Wheel -->
+  <link name="wheel_front_right">
+    <visual>
+      <geometry>
+        <cylinder radius="0.1" length="0.05"/> <!-- Wheel dimensions -->
+      </geometry>
+      <origin xyz="0.35 -0.3 -0.15" rpy="0 1.5708 0"/> <!-- Correct upright orientation -->
+      <material name="gray"/>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder radius="0.1" length="0.05"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1"/>
+      <inertia ixx="0.0005" ixy="0" ixz="0" iyy="0.0005" iyz="0" izz="0.001"/>
+      <origin xyz="0 0 0"/>
+    </inertial>
+  </link>
+
+  <!-- Middle Left Wheel -->
+  <link name="wheel_middle_left">
+    <visual>
+      <geometry>
+        <cylinder radius="0.1" length="0.05"/> <!-- Wheel dimensions -->
+      </geometry>
+      <origin xyz="0 0.3 -0.15" rpy="0 1.5708 0"/> <!-- Correct upright orientation -->
+      <material name="gray"/>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder radius="0.1" length="0.05"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1"/>
+      <inertia ixx="0.0005" ixy="0" ixz="0" iyy="0.0005" iyz="0" izz="0.001"/>
+      <origin xyz="0 0 0"/>
+    </inertial>
+  </link>
+
+  <!-- Middle Right Wheel -->
+  <link name="wheel_middle_right">
+    <visual>
+      <geometry>
+        <cylinder radius="0.1" length="0.05"/> <!-- Wheel dimensions -->
+      </geometry>
+      <origin xyz="0 -0.3 -0.15" rpy="0 1.5708 0"/> <!-- Correct upright orientation -->
+      <material name="gray"/>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder radius="0.1" length="0.05"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1"/>
+      <inertia ixx="0.0005" ixy="0" ixz="0" iyy="0.0005" iyz="0" izz="0.001"/>
+      <origin xyz="0 0 0"/>
+    </inertial>
+  </link>
+
+  <!-- Back Left Wheel -->
+  <link name="wheel_back_left">
+    <visual>
+      <geometry>
+        <cylinder radius="0.1" length="0.05"/> <!-- Wheel dimensions -->
+      </geometry>
+      <origin xyz="-0.35 0.3 -0.15" rpy="0 1.5708 0"/> <!-- Correct upright orientation -->
+      <material name="gray"/>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder radius="0.1" length="0.05"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1"/>
+      <inertia ixx="0.0005" ixy="0" ixz="0" iyy="0.0005" iyz="0" izz="0.001"/>
+      <origin xyz="0 0 0"/>
+    </inertial>
+  </link>
+
+  <!-- Back Right Wheel -->
+  <link name="wheel_back_right">
+    <visual>
+      <geometry>
+        <cylinder radius="0.1" length="0.05"/> <!-- Wheel dimensions -->
+      </geometry>
+      <origin xyz="-0.35 -0.3 -0.15" rpy="0 1.5708 0"/> <!-- Correct upright orientation -->
+      <material name="gray"/>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder radius="0.1" length="0.05"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1"/>
+      <inertia ixx="0.0005" ixy="0" ixz="0" iyy="0.0005" iyz="0" izz="0.001"/>
+      <origin xyz="0 0 0"/>
+    </inertial>
+  </link>
+
+  <!-- Joints -->
+  <!-- Chassis to Rocker Left Joint -->
+  <joint name="chassis_rocker_left_joint" type="continuous">
+    <parent link="chassis"/>
+    <child link="rocker_left"/>
+    <origin xyz="0.2 0.25 0.1"/> <!-- Positioned at the left side of chassis -->
+    <axis xyz="0 1 0"/> <!-- Rotation axis for rocker -->
+  </joint>
+
+  <!-- Chassis to Rocker Right Joint -->
+  <joint name="chassis_rocker_right_joint" type="continuous">
+    <parent link="chassis"/>
+    <child link="rocker_right"/>
+    <origin xyz="0.2 -0.25 0.1"/> <!-- Positioned at the right side of chassis -->
+    <axis xyz="0 1 0"/> <!-- Rotation axis for rocker -->
+  </joint>
+
+  <!-- Rocker Left to Bogie Left Joint -->
+  <joint name="rocker_bogie_left_joint" type="continuous">
+    <parent link="rocker_left"/>
+    <child link="bogie_left"/>
+    <origin xyz="0.4 0 0"/> <!-- Positioned at the end of rocker arm -->
+    <axis xyz="0 1 0"/> <!-- Rotation axis for bogie -->
+  </joint>
+
+  <!-- Rocker Right to Bogie Right Joint -->
+  <joint name="rocker_bogie_right_joint" type="continuous">
+    <parent link="rocker_right"/>
+    <child link="bogie_right"/>
+    <origin xyz="0.4 0 0"/> <!-- Positioned at the end of rocker arm -->
+    <axis xyz="0 1 0"/> <!-- Rotation axis for bogie -->
+  </joint>
+
+  <!-- Front Left Wheel Joint -->
+  <joint name="front_left_wheel_joint" type="continuous">
+    <parent link="bogie_left"/>
+    <child link="wheel_front_left"/>
+    <origin xyz="0.35 0.3 -0.15"/> <!-- Position of front left wheel relative to bogie -->
+    <axis xyz="0 0 1"/> <!-- Rotation axis for wheel -->
+  </joint>
+
+  <!-- Front Right Wheel Joint -->
+  <joint name="front_right_wheel_joint" type="continuous">
+    <parent link="bogie_right"/>
+    <child link="wheel_front_right"/>
+    <origin xyz="0.35 -0.3 -0.15"/> <!-- Position of front right wheel relative to bogie -->
+    <axis xyz="0 0 1"/> <!-- Rotation axis for wheel -->
+  </joint>
+
+  <!-- Middle Left Wheel Joint -->
+  <joint name="middle_left_wheel_joint" type="continuous">
+    <parent link="bogie_left"/>
+    <child link="wheel_middle_left"/>
+    <origin xyz="0 0.3 -0.15"/> <!-- Position of middle left wheel relative to bogie -->
+    <axis xyz="0 0 1"/> <!-- Rotation axis for wheel -->
+  </joint>
+
+  <!-- Middle Right Wheel Joint -->
+  <joint name="middle_right_wheel_joint" type="continuous">
+    <parent link="bogie_right"/>
+    <child link="wheel_middle_right"/>
+    <origin xyz="0 -0.3 -0.15"/> <!-- Position of middle right wheel relative to bogie -->
+    <axis xyz="0 0 1"/> <!-- Rotation axis for wheel -->
+  </joint>
+
+  <!-- Back Left Wheel Joint -->
+  <joint name="back_left_wheel_joint" type="continuous">
+    <parent link="rocker_left"/>
+    <child link="wheel_back_left"/>
+    <origin xyz="-0.35 0.3 -0.15"/> <!-- Position of back left wheel relative to rocker -->
+    <axis xyz="0 0 1"/> <!-- Rotation axis for wheel -->
+  </joint>
+
+  <!-- Back Right Wheel Joint -->
+  <joint name="back_right_wheel_joint" type="continuous">
+    <parent link="rocker_right"/>
+    <child link="wheel_back_right"/>
+    <origin xyz="-0.35 -0.3 -0.15"/> <!-- Position of back right wheel relative to rocker -->
+    <axis xyz="0 0 1"/> <!-- Rotation axis for wheel -->
+  </joint>
+
+</robot>
