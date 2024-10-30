@@ -2,3 +2,5 @@ logs/
 .cache/
 .vscode/
 .catkin_tools/
+build/
+devel/
