@@ -33,7 +33,11 @@
         <param name="config" value="$(find rocker_bogie)/rviz/rocker_bogie.rviz"/>
     </node>
 
-    <!-- Launch Control Node-->
+    <!-- Launch Control Node
     <node pkg="rocker_bogie" type="rocker_bogie_control.py" name="rocker_bogie_control" output="screen"/>
+-->
+
+    <!-- Launch Control Node2-->
+    <node pkg="rocker_bogie" type="skid_steering_control.py" name="skid_steering_control" output="screen"/>
 
 </launch>
