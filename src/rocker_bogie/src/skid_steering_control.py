@@ -24,10 +24,10 @@ class SkidSteeringControl:
         """Handle key press events."""
         try:
             if key.char == 'w':
-                self.twist.linear.x = 1.5  # Move forward
+                self.twist.linear.x = 10.0  # Move forward
                 self.twist.angular.z = 0.0
             elif key.char == 's':
-                self.twist.linear.x = -5.0  # Move backward
+                self.twist.linear.x = -10.0  # Move backward
                 self.twist.angular.z = 0.0
             elif key.char == 'a':
                 self.twist.angular.z = 5.0  # Rotate left (skid-steer)
