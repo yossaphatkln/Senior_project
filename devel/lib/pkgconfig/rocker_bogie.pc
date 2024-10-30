@@ -1,8 +1,1 @@
-prefix=/home/max/catkin_ws/devel
-
-Name: rocker_bogie
-Description: Description of rocker_bogie
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 
+/home/europazas/Desktop/Code/Senior_project/devel/.private/rocker_bogie/lib/pkgconfig/rocker_bogie.pc

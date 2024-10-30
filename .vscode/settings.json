@@ -1,0 +1,8 @@
+{
+    "python.autoComplete.extraPaths": [
+        "/home/europazas/miniforge3/envs/ros_env/lib/python3.11/site-packages"
+    ],
+    "python.analysis.extraPaths": [
+        "/home/europazas/miniforge3/envs/ros_env/lib/python3.11/site-packages"
+    ]
+}

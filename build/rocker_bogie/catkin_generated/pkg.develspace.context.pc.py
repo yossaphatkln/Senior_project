@@ -4,5 +4,5 @@ PROJECT_PKG_CONFIG_INCLUDE_DIRS = "".split(';') if "" != "" else []
 PROJECT_CATKIN_DEPENDS = "".replace(';', ' ')
 PKG_CONFIG_LIBRARIES_WITH_PREFIX = "".split(';') if "" != "" else []
 PROJECT_NAME = "rocker_bogie"
-PROJECT_SPACE_DIR = "/home/max/catkin_ws/devel"
+PROJECT_SPACE_DIR = "/home/europazas/Desktop/Code/Senior_project/devel/.private/rocker_bogie"
 PROJECT_VERSION = "0.0.0"

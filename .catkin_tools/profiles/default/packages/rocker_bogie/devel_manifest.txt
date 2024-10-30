@@ -1,0 +1,5 @@
+rocker_bogie
+/home/europazas/Desktop/Code/Senior_project/devel/.private/rocker_bogie/cmake.lock /home/europazas/Desktop/Code/Senior_project/devel/./cmake.lock
+/home/europazas/Desktop/Code/Senior_project/devel/.private/rocker_bogie/share/rocker_bogie/cmake/rocker_bogieConfig-version.cmake /home/europazas/Desktop/Code/Senior_project/devel/share/rocker_bogie/cmake/rocker_bogieConfig-version.cmake
+/home/europazas/Desktop/Code/Senior_project/devel/.private/rocker_bogie/share/rocker_bogie/cmake/rocker_bogieConfig.cmake /home/europazas/Desktop/Code/Senior_project/devel/share/rocker_bogie/cmake/rocker_bogieConfig.cmake
+/home/europazas/Desktop/Code/Senior_project/devel/.private/rocker_bogie/lib/pkgconfig/rocker_bogie.pc /home/europazas/Desktop/Code/Senior_project/devel/lib/pkgconfig/rocker_bogie.pc

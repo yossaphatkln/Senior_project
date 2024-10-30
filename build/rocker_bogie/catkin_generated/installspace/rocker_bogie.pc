@@ -1,4 +1,4 @@
-prefix=/home/max/catkin_ws/install
+prefix=/home/europazas/Desktop/Code/Senior_project/install
 
 Name: rocker_bogie
 Description: Description of rocker_bogie
