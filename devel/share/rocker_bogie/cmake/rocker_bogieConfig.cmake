@@ -1,1 +1,0 @@
-/home/europazas/Desktop/Code/Senior_project/devel/.private/rocker_bogie/share/rocker_bogie/cmake/rocker_bogieConfig.cmake

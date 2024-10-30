@@ -1,1 +1,0 @@
-/home/europazas/Desktop/Code/Senior_project/devel/.private/rocker_bogie/lib/pkgconfig/rocker_bogie.pc
