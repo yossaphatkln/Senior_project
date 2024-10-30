@@ -20,10 +20,20 @@
     <include file="$(find gazebo_ros)/launch/empty_world.launch">
         <arg name="paused" value="false" />
         <arg name="use_sim_time" value="true" />  <!-- Sync with ROS clock -->
+        <arg name="world_name" value="$(find rocker_bogie)/world/gas_station.world"/>
     </include>
 
     <!-- Spawn the rocker-bogie robot into Gazebo -->
     <node name="spawn_rocker_bogie" pkg="gazebo_ros" type="spawn_model" 
           args="-urdf -param robot_description -model rocker_bogie -x 0 -y 0 -z 0.2" 
           output="screen" />
+    
+    <!-- Launch RViz for visualization -->
+    <node name="rviz" pkg="rviz" type="rviz" required="true" output="screen">
+        <param name="config" value="$(find rocker_bogie)/rviz/rocker_bogie.rviz"/>
+    </node>
+
+    <!-- Launch Control Node-->
+    <node pkg="rocker_bogie" type="rocker_bogie_control.py" name="rocker_bogie_control" output="screen"/>
+
 </launch>
