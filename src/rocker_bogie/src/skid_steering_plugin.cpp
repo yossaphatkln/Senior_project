@@ -42,51 +42,87 @@ public:
     // Create a ROS node handle
     this->rosNode.reset(new ros::NodeHandle("skid_steering_plugin"));
     
-    // Subscribe to the /cmd_vel_left and /cmd_vel_right topics to receive wheel-specific commands
-    this->cmdVelLeftSub = this->rosNode->subscribe<std_msgs::Float64>(
-        "/cmd_vel_left", 1, &SkidSteeringPlugin::OnCmdVelLeftReceived, this);
-    this->cmdVelRightSub = this->rosNode->subscribe<std_msgs::Float64>(
-        "/cmd_vel_right", 1, &SkidSteeringPlugin::OnCmdVelRightReceived, this);
+    // this->cmdVelLeftSub = this->rosNode->subscribe<std_msgs::Float64>(
+    //     "/cmd_vel_left", 1, &SkidSteeringPlugin::OnCmdVelLeftReceived, this);
+    // this->cmdVelRightSub = this->rosNode->subscribe<std_msgs::Float64>(
+    //     "/cmd_vel_right", 1, &SkidSteeringPlugin::OnCmdVelRightReceived, this);
+    this->velLeftFront = this->rosNode->subscribe<geometry_msgs::Twist>(
+        "/cmd_vel_left_front", 1, &SkidSteeringPlugin::OnReceived_velLeftFront, this);
+    this->velLeftMiddle = this->rosNode->subscribe<geometry_msgs::Twist>(
+        "/cmd_vel_left_middle", 1, &SkidSteeringPlugin::OnCmdVelReceived_velLeftMiddle, this);
+    this->velLeftBack = this->rosNode->subscribe<geometry_msgs::Twist>(
+        "/cmd_vel_left_back", 1, &SkidSteeringPlugin::OnCmdVelReceived_velLeftBack, this);
+    this->velRightFront = this->rosNode->subscribe<geometry_msgs::Twist>(
+        "/cmd_vel_right_front", 1, &SkidSteeringPlugin::OnCmdVelReceived_velRightFront, this);
+    this->velRightMiddle = this->rosNode->subscribe<geometry_msgs::Twist>(
+        "/cmd_vel_right_middle", 1, &SkidSteeringPlugin::OnCmdVelReceived_velRightMiddle, this);
+    this->velRightBack = this->rosNode->subscribe<geometry_msgs::Twist>(
+        "/cmd_vel_right_back", 1, &SkidSteeringPlugin::OnCmdVelReceived_velRightBack, this);
 
     // Log success message for debugging
     gzlog << "Skid Steering Plugin loaded with separate left and right velocity topics.\n";
 }
 
-
     // Handle incoming velocity commands for the left wheel
-    void OnCmdVelLeftReceived(const std_msgs::Float64::ConstPtr &msg) {
-        leftWheelVel = msg->data;
+    void OnReceived_velLeftFront(const geometry_msgs::Twist::ConstPtr& msg) {
+        // this->leftFrontVel = msg->angular.x;
+        this->leftFrontVel = msg->angular.z;
     }
 
-    // Handle incoming velocity commands for the right wheel
-    void OnCmdVelRightReceived(const std_msgs::Float64::ConstPtr &msg) {
-        rightWheelVel = msg->data;
+    void OnCmdVelReceived_velLeftMiddle(const geometry_msgs::Twist::ConstPtr& msg) {
+        // this->leftMiddleVel = msg->linear.x;
+        this->leftMiddleVel = msg->angular.z;
     }
 
-    // Called at every simulation step to update wheel velocities
+    void OnCmdVelReceived_velLeftBack(const geometry_msgs::Twist::ConstPtr& msg) {
+        // this->leftBackVel = msg->linear.x;
+        this->leftBackVel = msg->angular.z;
+    }
+
+    void OnCmdVelReceived_velRightFront(const geometry_msgs::Twist::ConstPtr& msg) {
+        // this->rightFrontVel = msg->linear.x;
+        this->rightFrontVel = msg->angular.z;
+    }
+
+    void OnCmdVelReceived_velRightMiddle(const geometry_msgs::Twist::ConstPtr& msg) {
+        // this->rightMiddleVel = msg->linear.x;
+        this->rightMiddleVel = msg->angular.z;
+    }
+
+    void OnCmdVelReceived_velRightBack(const geometry_msgs::Twist::ConstPtr& msg) {
+        // this->rightBackVel = msg->linear.x;
+        this->rightBackVel = msg->angular.z;
+    }
+
+    // Function that Gazebo calls every simulation update
     void OnUpdate() {
-        // Set velocities for the left and right wheels
-        for (size_t i = 0; i < wheels.size(); ++i) {
-            double velocity = (i < 3) ? leftWheelVel : rightWheelVel;  // Left wheels first 3, right wheels next 3
-            wheels[i]->SetParam("fmax", 0, 10.0);  // Set max force for the joint
-            wheels[i]->SetParam("vel", 0, velocity);  // Apply the calculated velocity
-        }
+        // Apply velocity to each wheel joint based on the received ROS messages
+        this->wheels[0]->SetVelocity(0, this->leftFrontVel);
+        this->wheels[1]->SetVelocity(0, this->leftMiddleVel);
+        this->wheels[2]->SetVelocity(0, this->leftBackVel);
+        this->wheels[3]->SetVelocity(0, this->rightFrontVel);
+        this->wheels[4]->SetVelocity(0, this->rightMiddleVel);
+        this->wheels[5]->SetVelocity(0, this->rightBackVel);
     }
 
 private:
     // Gazebo components
     physics::ModelPtr model;
-    std::vector<physics::JointPtr> wheels;
+    std::array<physics::JointPtr, 6> wheels;
     event::ConnectionPtr updateConnection;
-
-    // ROS components
     std::unique_ptr<ros::NodeHandle> rosNode;
-    ros::Subscriber cmdVelLeftSub;  // Declare left wheel velocity subscriber
-    ros::Subscriber cmdVelRightSub; // Declare right wheel velocity subscriber
+
+    ros::Subscriber velLeftFront, velLeftMiddle, velLeftBack;
+    ros::Subscriber velRightFront, velRightMiddle, velRightBack;
+
 
     // Wheel velocities
-    double leftWheelVel = 0.0;
-    double rightWheelVel = 0.0;
+    double leftFrontVel = 0.0;
+    double leftMiddleVel = 0.0;
+    double leftBackVel = 0.0;
+    double rightFrontVel = 0.0;
+    double rightMiddleVel = 0.0;
+    double rightBackVel = 0.0;
 };
 
 // Register the plugin with Gazebo
