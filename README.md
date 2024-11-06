@@ -1,3 +1,3 @@
 # Senior Project
 
-describe your project here
+run catkin build or catkin_make
