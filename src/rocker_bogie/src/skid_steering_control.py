@@ -33,8 +33,8 @@ class SkidSteeringControl:
                 self.left_velocity.data = -20
                 self.right_velocity.data = -20
             elif key.char == 'a':
-                self.left_velocity.data = -20
-                self.right_velocity.data = 20
+                self.left_velocity.data= -20
+                self.right_velocity.data = 20 
             elif key.char == 'd':
                 self.left_velocity.data = 20
                 self.right_velocity.data = -20
