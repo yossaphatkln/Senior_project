@@ -20,12 +20,14 @@
     <include file="$(find gazebo_ros)/launch/empty_world.launch">
         <arg name="paused" value="false" />
         <arg name="use_sim_time" value="true" />  <!-- Sync with ROS clock -->
-        <arg name="world_name" value="$(find rocker_bogie)/world/gas_station.world"/>
+        <arg name="world_name" value="$(find rocker_bogie)/world/house.world"/>
+        <!-- <arg name="world_name" value="$(find rocker_bogie)/world/turtle.world"/> -->
+        <!-- <arg name="world_name" value="$(find rocker_bogie)/world/gas_station.world"/> -->
     </include>
 
     <!-- Spawn the rocker-bogie robot into Gazebo -->
     <node name="spawn_rocker_bogie" pkg="gazebo_ros" type="spawn_model" 
-          args="-urdf -param robot_description -model rocker_bogie -x 0 -y 0 -z 0.2" 
+          args="-urdf -param robot_description -model rocker_bogie -x -2 -y 1 -z 0.5" 
           output="screen" />
     
     <!-- Launch RViz for visualization -->
