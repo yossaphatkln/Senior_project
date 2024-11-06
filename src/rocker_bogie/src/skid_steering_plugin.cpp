@@ -41,24 +41,26 @@ public:
 
     // Create a ROS node handle
     this->rosNode.reset(new ros::NodeHandle("skid_steering_plugin"));
-
-    // Subscribe to the /cmd_vel topic to receive velocity commands
-    this->cmdVelSub = this->rosNode->subscribe<geometry_msgs::Twist>(
-        "/cmd_vel", 1, &SkidSteeringPlugin::OnCmdVelReceived, this);
+    
+    // Subscribe to the /cmd_vel_left and /cmd_vel_right topics to receive wheel-specific commands
+    this->cmdVelLeftSub = this->rosNode->subscribe<std_msgs::Float64>(
+        "/cmd_vel_left", 1, &SkidSteeringPlugin::OnCmdVelLeftReceived, this);
+    this->cmdVelRightSub = this->rosNode->subscribe<std_msgs::Float64>(
+        "/cmd_vel_right", 1, &SkidSteeringPlugin::OnCmdVelRightReceived, this);
 
     // Log success message for debugging
-    gzlog << "Skid Steering Plugin loaded and ROS node initialized.\n";
+    gzlog << "Skid Steering Plugin loaded with separate left and right velocity topics.\n";
+}
+
+
+    // Handle incoming velocity commands for the left wheel
+    void OnCmdVelLeftReceived(const std_msgs::Float64::ConstPtr &msg) {
+        leftWheelVel = msg->data;
     }
 
-    // Handle incoming velocity commands from /cmd_vel topic
-    void OnCmdVelReceived(const geometry_msgs::Twist::ConstPtr &msg) {
-        // Extract linear and angular velocity from the message
-        double linear = msg->linear.x;
-        double angular = msg->angular.z;
-
-        // Calculate the wheel velocities for skid-steering
-        leftWheelVel = linear - angular;
-        rightWheelVel = linear + angular;
+    // Handle incoming velocity commands for the right wheel
+    void OnCmdVelRightReceived(const std_msgs::Float64::ConstPtr &msg) {
+        rightWheelVel = msg->data;
     }
 
     // Called at every simulation step to update wheel velocities
@@ -79,7 +81,8 @@ private:
 
     // ROS components
     std::unique_ptr<ros::NodeHandle> rosNode;
-    ros::Subscriber cmdVelSub;
+    ros::Subscriber cmdVelLeftSub;  // Declare left wheel velocity subscriber
+    ros::Subscriber cmdVelRightSub; // Declare right wheel velocity subscriber
 
     // Wheel velocities
     double leftWheelVel = 0.0;
