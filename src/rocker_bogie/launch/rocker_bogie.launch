@@ -29,17 +29,17 @@
     <node name="spawn_rocker_bogie" pkg="gazebo_ros" type="spawn_model" 
           args="-urdf -param robot_description -model rocker_bogie -x -2 -y 1 -z 0.5" 
           output="screen" />
-    
-    <!-- Launch RViz for visualization -->
-    <node name="rviz" pkg="rviz" type="rviz" required="true" output="screen">
-        <param name="config" value="$(find rocker_bogie)/rviz/rocker_bogie.rviz"/>
-    </node>
-
-    <!-- Launch Control Node
-    <node pkg="rocker_bogie" type="rocker_bogie_control.py" name="rocker_bogie_control" output="screen"/>
--->
 
     <!-- Launch Control Node2-->
     <node pkg="rocker_bogie" type="skid_steering_control.py" name="skid_steering_control" output="screen"/>
 
+    <!-- SLAM: Gmapping, Cartographer, Hector, Karto, Frontier_exploration, RTAB-Map -->
+    <include file="$(find rocker_bogie)/launch/slam.launch">
+        <arg name="model" value="rocker_bogie"/>
+        <arg name="configuration_basename" value="rocker_bogie.lua"/>
+    </include>
+
+    <!-- Launch RViz for visualization -->
+    <node name="rviz" pkg="rviz" type="rviz" required="true" output="screen"
+    args="-d $(find rocker_bogie)/rviz/rocker_bogie.rviz"/>
 </launch>
