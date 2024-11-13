@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="rocker_bogie_rover">
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="rocker_bogie">
 
   <!-- Properties for reuse -->
   <xacro:property name="wheel_radius" value="0.07"/>
@@ -8,6 +8,7 @@
   <xacro:property name="wheel_color" value="0.3 0.3 0.3 1"/>
   <xacro:property name="blue_color" value="0 1 1 1"/>
   <xacro:property name="orange_color" value="1 0.5 0 1"/>
+
 
 <!-- Base Link at the Center of the Chassis -->
 <link name="base_link">
@@ -21,6 +22,31 @@
     </material>
   </visual>
 </link>
+
+<link name="lidar_link">
+  <visual>
+    <geometry>
+          <cylinder length="0.05" radius="0.02"/> <!-- Adjust dimensions as needed -->
+      </geometry>
+      <material name="green_material">
+          <color rgba="0.0 1.0 0.0 0.5"/> <!-- Semi-transparent green for visualization -->
+      </material>
+  </visual>
+  <collision>
+      <geometry>
+          <cylinder length="0.05" radius="0.02"/>
+      </geometry>
+  </collision>
+  <inertial>
+      <mass value="0.1"/> <!-- Adjust mass -->
+      <inertia ixx="0.01" ixy="0.0" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.01"/>
+  </inertial>
+</link>
+<joint name="lidar_joint" type="fixed">
+  <parent link="base_link"/>
+  <child link="lidar_link"/>
+  <origin xyz="0 0 0.3" rpy="0 0 0"/> <!-- Position the LiDAR slightly above the rover chassis -->
+</joint>
 
   <!-- Macro for Chassis -->
 <xacro:macro name="chassis" params="">
@@ -293,6 +319,39 @@ params="joint_name parent_link child_link origin_x origin_y origin_z">
 <xacro:wheel_joint wheel_name="wheel_middle_right" parent_link="bogie_right" origin_x="-0.12" origin_y="-0.03" origin_z="-0.07"/>
 <xacro:wheel_joint wheel_name="wheel_back_right" parent_link="rocker_right" origin_x="-0.3" origin_y="-0.03" origin_z="-0.17"/>
 
+<gazebo reference="lidar_link">
+  <material name="black"><color rgba="0.0 0.0 0.0 1.0"/></material>
+  <sensor type="ray" name="lidar_sensor">
+    <pose>0 0 0.3 0 0 0</pose>
+    <visualize>true</visualize>
+    <update_rate>5</update_rate>
+    <ray>
+      <scan>
+        <horizontal>
+          <samples>360</samples>
+          <resolution>1</resolution>
+          <min_angle>0</min_angle> <!-- -90 degrees -->
+          <max_angle>6.28</max_angle>  <!-- +90 degrees -->
+        </horizontal>
+      </scan>
+      <range>
+        <min>0.2</min> <!-- Min detection distance -->
+        <max>3.5</max> <!-- Max detection distance -->
+        <resolution>0.015</resolution>
+      </range>
+      <noise>
+        <type>gaussian</type>
+        <mean>0.0</mean>
+        <stddev>0.01</stddev>
+      </noise>
+    </ray>
+    <plugin name="gazebo_ros_laser" filename="libgazebo_ros_laser.so">
+      <topicName>scan</topicName>
+      <frameName>lidar_link</frameName>
+    </plugin>
+  </sensor>
+</gazebo>
+
 <gazebo>
   <plugin name="skid_steering_plugin" filename="libskid_steering_plugin.so">
     <left_joint>joint_wheel_front_left</left_joint>
@@ -303,5 +362,6 @@ params="joint_name parent_link child_link origin_x origin_y origin_z">
     <right_joint>joint_wheel_back_right</right_joint>
   </plugin>
 </gazebo>
+
 
 </robot>
