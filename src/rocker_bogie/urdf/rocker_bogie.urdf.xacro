@@ -297,8 +297,8 @@ params="joint_name parent_link child_link origin_x origin_y origin_z">
     <origin xyz="${origin_x} ${origin_y} ${origin_z}"/>
     <axis xyz="0 1 0"/> <!-- Rotate around y-axis -->
     <gazebo>
-      <mu1>2.0</mu1> <!-- Primary friction coefficient -->
-      <mu2>2.0</mu2> <!-- Secondary friction coefficient -->
+      <mu1>0.7</mu1> <!-- Primary friction coefficient -->
+      <mu2>0.7</mu2> <!-- Secondary friction coefficient -->
     </gazebo>
   </joint>
 </xacro:macro>
