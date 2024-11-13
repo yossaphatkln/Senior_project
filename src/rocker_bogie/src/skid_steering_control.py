@@ -47,26 +47,35 @@ class SkidSteeringControl:
         self.right_front_velocity.angular.z = vel[3]
         self.right_middle_velocity.angular.z = vel[4]
         self.right_back_velocity.angular.z = vel[5]
+    
+    def scalar_multiply(self, scalar, list_values):
+        return [x * scalar for x in list_values]
+
 
     def on_press(self, key):
         """Handle key press events."""
 
         forward = [50, 50, 50, 50, 50, 50]
         backward = [-50, -50, -50, -50, -50, -50]
-        # left_turn = [-50, -35, -25, 25, 35, 50]
-        # right_turn = [25, 35, 50, -50, -35, -25]
         left_turn = [-40, -35, -30, 30, 35, 40]
         right_turn = [30, 35, 40, -40, -35, -30]
 
+        scalar = 0.5
+        forward_scaled = self.scalar_multiply(scalar, forward)
+        backward_scaled = self.scalar_multiply(scalar, backward)
+        left_turn_scaled = self.scalar_multiply(scalar, left_turn)
+        right_turn_scaled = self.scalar_multiply(scalar, right_turn)
+
+
         try:
             if key.char == 'w':  # Forward
-                self.set_velocity(forward)
+                self.set_velocity(forward_scaled)
             elif key.char == 's':  # Backward
-                self.set_velocity(backward)
+                self.set_velocity(backward_scaled)
             elif key.char == 'a':  # Left turn
-                self.set_velocity(left_turn)
+                self.set_velocity(left_turn_scaled)
             elif key.char == 'd':  # Right turn
-                self.set_velocity(right_turn)
+                self.set_velocity(right_turn_scaled)
             elif key.char == 'q':  # Quit
                 rospy.signal_shutdown("User requested shutdown.")
            
