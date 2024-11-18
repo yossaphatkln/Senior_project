@@ -32,21 +32,7 @@
     <geometry>
           <cylinder length="0.05" radius="0.02"/> <!-- Adjust dimensions as needed -->
       </geometry>
-      
-    <!--  <material name="green_material">
-        <color rgba="0.0 1.0 0.0 0.5"/>
-    </material> -->
-
   </visual>
-  <!-- <collision>
-      <geometry>
-          <cylinder length="0.05" radius="0.02"/>
-      </geometry>
-  </collision> -->
-  <!-- <inertial>
-      <mass value="0.1"/> 
-      <inertia ixx="0.01" ixy="0.0" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.01"/>
-  </inertial> -->
 </link>
 
 <joint name="lidar_joint" type="fixed">
