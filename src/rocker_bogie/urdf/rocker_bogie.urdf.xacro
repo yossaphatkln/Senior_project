@@ -32,9 +32,11 @@
     <geometry>
           <cylinder length="0.05" radius="0.02"/> <!-- Adjust dimensions as needed -->
       </geometry>
-      <material name="green_material">
-          <color rgba="0.0 1.0 0.0 0.5"/> <!-- Semi-transparent green for visualization -->
-      </material>
+      
+    <!--  <material name="green_material">
+        <color rgba="0.0 1.0 0.0 0.5"/>
+    </material> -->
+
   </visual>
   <!-- <collision>
       <geometry>
@@ -50,7 +52,7 @@
 <joint name="lidar_joint" type="fixed">
   <parent link="base_link"/>
   <child link="lidar_link"/>
-  <origin xyz="0 0 0.3" rpy="0 0 0"/> <!-- Position the LiDAR slightly above the rover chassis -->
+  <origin xyz="0 0 0.2" rpy="0 0 0"/> <!-- Position the LiDAR slightly above the rover chassis -->
 </joint>
 
   <!-- Macro for Chassis -->
@@ -328,9 +330,9 @@ params="joint_name parent_link child_link origin_x origin_y origin_z">
   <material name="black"><color rgba="0.0 0.0 0.0 1.0"/></material>
   <sensor type="ray" name="lidar_sensor">
     <!-- <pose>0 0 0.3 0 0 0</pose> -->
-    <origin xyz="0 0 0.3" rpy="0 0 0"/>
+    <origin xyz="0 0 0.2" rpy="0 0 0"/>
     <visualize>true</visualize>
-    <update_rate>5</update_rate>
+    <update_rate>20</update_rate>
     <ray>
       <scan>
         <horizontal>
