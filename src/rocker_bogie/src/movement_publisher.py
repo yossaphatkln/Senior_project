@@ -7,7 +7,7 @@ import tf
 import math
 
 # Wheel base distance (distance between left and right wheels)
-WHEEL_BASE = 0.4*100
+WHEEL_BASE = 0.4 * 12.5
 
 # Initialize velocities for each wheel
 left_front_vel = 0.0
