@@ -1,0 +1,18 @@
+digraph G {
+"base_link" -> "lidar_link"[label="Broadcaster: /rocker_bogie_tf_publisher\nAverage rate: 10.348 Hz\nMost recent transform: 54.300 ( 0.090 sec old)\nBuffer length: 2.899 sec\n"];
+"odom" -> "base_footprint"[label="Broadcaster: /movement_publisher\nAverage rate: 10.345 Hz\nMost recent transform: 54.300 ( 0.090 sec old)\nBuffer length: 2.900 sec\n"];
+"base_link" -> "rocker_left"[label="Broadcaster: /rocker_bogie_tf_publisher\nAverage rate: 10.352 Hz\nMost recent transform: 54.300 ( 0.090 sec old)\nBuffer length: 2.898 sec\n"];
+"base_link" -> "rocker_right"[label="Broadcaster: /rocker_bogie_tf_publisher\nAverage rate: 10.352 Hz\nMost recent transform: 54.300 ( 0.090 sec old)\nBuffer length: 2.898 sec\n"];
+"rocker_left" -> "bogie_left"[label="Broadcaster: /rocker_bogie_tf_publisher\nAverage rate: 10.352 Hz\nMost recent transform: 54.301 ( 0.089 sec old)\nBuffer length: 2.898 sec\n"];
+"rocker_right" -> "bogie_right"[label="Broadcaster: /rocker_bogie_tf_publisher\nAverage rate: 10.352 Hz\nMost recent transform: 54.302 ( 0.088 sec old)\nBuffer length: 2.898 sec\n"];
+"bogie_left" -> "wheel_front_left"[label="Broadcaster: /rocker_bogie_tf_publisher\nAverage rate: 10.356 Hz\nMost recent transform: 54.302 ( 0.088 sec old)\nBuffer length: 2.897 sec\n"];
+"bogie_left" -> "wheel_middle_left"[label="Broadcaster: /rocker_bogie_tf_publisher\nAverage rate: 10.352 Hz\nMost recent transform: 54.303 ( 0.087 sec old)\nBuffer length: 2.898 sec\n"];
+edge [style=invis];
+ subgraph cluster_legend { style=bold; color=black; label ="view_frames Result";
+"Recorded at time: 54.390"[ shape=plaintext ] ;
+ }->"base_link";
+edge [style=invis];
+ subgraph cluster_legend { style=bold; color=black; label ="view_frames Result";
+"Recorded at time: 54.390"[ shape=plaintext ] ;
+ }->"odom";
+}
