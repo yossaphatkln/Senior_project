@@ -12,7 +12,7 @@ public:
     void Load(physics::ModelPtr _model, sdf::ElementPtr /*_sdf*/) override {
     this->model = _model;
 
-    // Get the wheel joints
+    // Get the wheel jointsz
     this->wheels = {
         _model->GetJoint("joint_wheel_front_left"),
         _model->GetJoint("joint_wheel_middle_left"),
@@ -41,11 +41,7 @@ public:
 
     // Create a ROS node handle
     this->rosNode.reset(new ros::NodeHandle("skid_steering_plugin"));
-    
-    // this->cmdVelLeftSub = this->rosNode->subscribe<std_msgs::Float64>(
-    //     "/cmd_vel_left", 1, &SkidSteeringPlugin::OnCmdVelLeftReceived, this);
-    // this->cmdVelRightSub = this->rosNode->subscribe<std_msgs::Float64>(
-    //     "/cmd_vel_right", 1, &SkidSteeringPlugin::OnCmdVelRightReceived, this);
+
     this->velLeftFront = this->rosNode->subscribe<geometry_msgs::Twist>(
         "/cmd_vel_left_front", 1, &SkidSteeringPlugin::OnReceived_velLeftFront, this);
     this->velLeftMiddle = this->rosNode->subscribe<geometry_msgs::Twist>(

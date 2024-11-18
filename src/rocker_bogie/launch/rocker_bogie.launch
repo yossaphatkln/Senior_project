@@ -1,4 +1,15 @@
 <launch>
+    <arg name="x_pos" default="-2.0"/>
+    <arg name="y_pos" default="-0.0"/>
+    <arg name="z_pos" default="0.5"/>
+
+    <arg name="world" default="turtle"/>
+    <!-- <arg name="world" default="house"/>
+    <arg name="world" default="gas_station"/> -->
+
+    <arg name="slam" default="true"/>
+    <arg name="nav" default="false"/>
+
     <!-- Argument to pass the Xacro file path -->
     <arg name="model" default="$(find rocker_bogie)/urdf/rocker_bogie.urdf.xacro" />
 
@@ -12,34 +23,39 @@
     <!-- Launch the joint_state_publisher to publish joint states -->
     <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" output="screen" />
 
-    <!-- Add a static transform publisher to align the base_link above ground -->
-    <node pkg="tf2_ros" type="static_transform_publisher" name="base_link_offset"
-          args="0 0 0.2 0 0 0 map base_link" />
-
     <!-- Launch an empty Gazebo world -->
     <include file="$(find gazebo_ros)/launch/empty_world.launch">
         <arg name="paused" value="false" />
         <arg name="use_sim_time" value="true" />  <!-- Sync with ROS clock -->
-        <arg name="world_name" value="$(find rocker_bogie)/world/house.world"/>
-        <!-- <arg name="world_name" value="$(find rocker_bogie)/world/turtle.world"/> -->
-        <!-- <arg name="world_name" value="$(find rocker_bogie)/world/gas_station.world"/> -->
+        <arg name="world_name" value="$(find rocker_bogie)/world/$(arg world).world"/>
     </include>
 
     <!-- Spawn the rocker-bogie robot into Gazebo -->
-    <node name="spawn_rocker_bogie" pkg="gazebo_ros" type="spawn_model" 
-          args="-urdf -param robot_description -model rocker_bogie -x -2 -y 1 -z 0.5" 
-          output="screen" />
-    
-    <!-- Launch RViz for visualization -->
-    <node name="rviz" pkg="rviz" type="rviz" required="true" output="screen">
-        <param name="config" value="$(find rocker_bogie)/rviz/rocker_bogie.rviz"/>
-    </node>
+    <node name="spawn_rocker_bogie" pkg="gazebo_ros" type="spawn_model"
+          args="-urdf -param robot_description -model rocker_bogie -x $(arg x_pos) -y $(arg y_pos) -z $(arg z_pos)" output="screen" />
 
-    <!-- Launch Control Node
-    <node pkg="rocker_bogie" type="rocker_bogie_control.py" name="rocker_bogie_control" output="screen"/>
--->
-
-    <!-- Launch Control Node2-->
+    <!-- Launch Control Node -->
     <node pkg="rocker_bogie" type="skid_steering_control.py" name="skid_steering_control" output="screen"/>
+
+    <!-- SLAM: Gmapping -->
+    <include file="$(find rocker_bogie)/launch/slam.launch">
+    </include>
+
+    <!-- Movement Publisher -->
+    <node pkg="rocker_bogie" type="movement_publisher.py" name="movement_publisher" output="screen"/>
+
+    <!-- Navigation -->
+    <!-- <include file="$(find rocker_bogie)/launch/navigation.launch">
+        <arg name="map_file" value="$(find rocker_bogie)/map/$(arg world)/map.yaml"/>
+    </include> -->
+
+    <!-- RViz -->
+    <group if="$(arg slam)">
+        <node name="rviz" pkg="rviz" type="rviz" args="-d $(find rocker_bogie)/rviz/slam.rviz" />
+    </group>
+    <group if="$(arg nav)">
+        <node name="rviz" pkg="rviz" type="rviz" args="-d $(find rocker_bogie)/rviz/nav.rviz" />
+    </group>
+
 
 </launch>
