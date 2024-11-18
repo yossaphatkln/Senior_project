@@ -79,16 +79,16 @@ class SkidSteeringControl:
         try:
             if key.char == 'w':  # Forward
                 self.set_velocity(forward_scaled)
-                self.avg_velocity.angular.z = self.avg(forward_scaled)
+                self.avg_velocity.linear.x = self.avg(forward_scaled)
             elif key.char == 's':  # Backward
                 self.set_velocity(backward_scaled)
-                self.avg_velocity.angular.z = self.avg(backward_scaled)
+                self.avg_velocity.linear.x = self.avg(backward_scaled)
             elif key.char == 'a':  # Left turn
                 self.set_velocity(left_turn_scaled)
-                self.avg_velocity.angular.z = self.avg(left_turn_scaled)
+                self.avg_velocity.angular.z = 1#self.avg(left_turn_scaled)
             elif key.char == 'd':  # Right turn
                 self.set_velocity(right_turn_scaled)
-                self.avg_velocity.angular.z = self.avg(right_turn_scaled)
+                self.avg_velocity.angular.z = -1#self.avg(right_turn_scaled)
             elif key.char == 'q':  # Quit
                 rospy.signal_shutdown("User requested shutdown.")
            
@@ -103,6 +103,7 @@ class SkidSteeringControl:
         """Handle key release events."""
         # Stop the rover when any key is released
         self.set_velocity([0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
+        self.avg_velocity.linear.x = 0
         self.avg_velocity.angular.z = 0
         self.publish_velocity()
 

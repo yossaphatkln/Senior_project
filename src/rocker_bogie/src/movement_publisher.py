@@ -7,7 +7,7 @@ import tf
 import math
 
 # Wheel base distance (distance between left and right wheels)
-WHEEL_BASE = 0.4 * 12.5
+WHEEL_BASE = 0.4 * 15
 
 # Initialize velocities for each wheel
 left_front_vel = 0.0
@@ -42,8 +42,8 @@ def right_back_callback(msg):
     global right_back_vel
     right_back_vel = msg.angular.z
 
-def dummy_odometry_publisher():
-    rospy.init_node('dummy_odometry_publisher')
+def odometry_publisher():
+    rospy.init_node('odometry_publisher')
     odom_pub = rospy.Publisher('/odom', Odometry, queue_size=50)
     odom_broadcaster = tf.TransformBroadcaster()
 
@@ -82,26 +82,19 @@ def dummy_odometry_publisher():
         rotating_left = left_avg < 0 and right_avg > 0
         rotating_right = left_avg > 0 and right_avg < 0
 
+        dx = vx * math.cos(theta) * dt
+        dy = vx * math.sin(theta) * dt
+        dth = vth * dt
+
         # Update dx, dy, and dth based on movement type
         if moving_forward or moving_backward:
             # Moving forward or backward
-            dx = vx * math.cos(theta) * dt
-            dy = vx * math.sin(theta) * dt
-            dth = 0
+                x += dx
+                y += dy
         elif rotating_left or rotating_right:
             # Rotating left or right
-            dx = 0
-            dy = 0
-            dth = vth * dt
-        else:
-            dx = dy = dth = 0  # In case of no movement
-
-
-        # Update odometry
-        x += dx
-        y += dy
-        theta += dth
-
+                theta += dth
+            
         # Create a quaternion from theta
         odom_quat = tf.transformations.quaternion_from_euler(0, 0, theta)
 
@@ -110,7 +103,7 @@ def dummy_odometry_publisher():
             (x, y, 0.0),
             odom_quat,
             current_time,
-            "base_link",
+            "base_footprint",
             "odom"
         )
 
@@ -126,7 +119,7 @@ def dummy_odometry_publisher():
         odom.pose.pose.orientation = Quaternion(*odom_quat)
 
         # Set the velocity
-        odom.child_frame_id = "base_link"
+        odom.child_frame_id = "base_footprint"
         odom.twist.twist.linear.x = vx
         odom.twist.twist.angular.z = vth
 
@@ -137,6 +130,6 @@ def dummy_odometry_publisher():
 
 if __name__ == '__main__':
     try:
-        dummy_odometry_publisher()
+        odometry_publisher()
     except rospy.ROSInterruptException:
         pass
