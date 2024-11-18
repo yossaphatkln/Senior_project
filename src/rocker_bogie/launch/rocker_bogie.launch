@@ -1,14 +1,16 @@
 <launch>
-    <arg name="x_pos" default="-2.0"/>
-    <arg name="y_pos" default="-0.0"/>
+    <arg name="x_pos" default="-2.0"/> 
+    <arg name="y_pos" default="0.0"/>
     <arg name="z_pos" default="0.5"/>
+
+    <!-- -2 0 for turtle -->
+    <!-- -2 1 for house -->
 
     <arg name="world" default="turtle"/>
     <!-- <arg name="world" default="house"/>
     <arg name="world" default="gas_station"/> -->
 
-    <arg name="slam" default="true"/>
-    <arg name="nav" default="false"/>
+    <arg name="mode" default="slam"/>
 
     <!-- Argument to pass the Xacro file path -->
     <arg name="model" default="$(find rocker_bogie)/urdf/rocker_bogie.urdf.xacro" />
@@ -38,24 +40,20 @@
     <node pkg="rocker_bogie" type="skid_steering_control.py" name="skid_steering_control" output="screen"/>
 
     <!-- SLAM: Gmapping -->
-    <include file="$(find rocker_bogie)/launch/slam.launch">
-    </include>
+    <group if="$(eval arg('mode') == 'slam')">
+         <include file="$(find rocker_bogie)/launch/slam.launch"/>
+    </group>
 
     <!-- Movement Publisher -->
     <node pkg="rocker_bogie" type="movement_publisher.py" name="movement_publisher" output="screen"/>
+    <node pkg="rocker_bogie" type="base_link_broadcaster.py" name="base_link_broadcaster" output="screen"/>
+    <!-- <node pkg="rocker_bogie" type="rocker_bogie_tf_publisher.py" name="rocker_bogie_tf_publisher" output="screen"/> -->
 
     <!-- Navigation -->
-    <!-- <include file="$(find rocker_bogie)/launch/navigation.launch">
-        <arg name="map_file" value="$(find rocker_bogie)/map/$(arg world)/map.yaml"/>
-    </include> -->
-
-    <!-- RViz -->
-    <group if="$(arg slam)">
-        <node name="rviz" pkg="rviz" type="rviz" args="-d $(find rocker_bogie)/rviz/slam.rviz" />
+    <group if="$(eval arg('mode') == 'nav')">
+        <include file="$(find rocker_bogie)/launch/navigation.launch">
+            <arg name="map_file" value="$(find rocker_bogie)/map/$(arg world)/map.yaml"/>
+        </include>
     </group>
-    <group if="$(arg nav)">
-        <node name="rviz" pkg="rviz" type="rviz" args="-d $(find rocker_bogie)/rviz/nav.rviz" />
-    </group>
-
 
 </launch>

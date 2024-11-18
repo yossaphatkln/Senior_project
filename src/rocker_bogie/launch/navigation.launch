@@ -11,7 +11,7 @@
   
     <!-- move_base -->
     <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
-        <param name="base_global_planner" value="global_planner/GlobalPlanner"/>
+        <!-- <param name="base_global_planner" value="global_planner/GlobalPlanner"/> -->
         <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS" />
         <rosparam file="$(find rocker_bogie)/param/costmap_common_params.yaml" command="load" ns="global_costmap" />
         <rosparam file="$(find rocker_bogie)/param/costmap_common_params.yaml" command="load" ns="local_costmap" />
@@ -24,7 +24,7 @@
         <param name="DWAPlannerROS/min_vel_x" value="0.0" if="$(arg move_forward_only)" />
       </node>
 
-    <!-- rviz -->
-    <!-- <node pkg="rviz" type="rviz" name="rviz" required="true"
-        args="-d $(find rocker_bogie)/rviz/navigation.rviz"/> -->
+    <!-- RViz -->
+    <node pkg="rviz" type="rviz" name="rviz" required="true"
+        args="-d $(find rocker_bogie)/rviz/navigation.rviz"/>
   </launch>
