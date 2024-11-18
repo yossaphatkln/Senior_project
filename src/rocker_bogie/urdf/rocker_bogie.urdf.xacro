@@ -12,10 +12,6 @@
 
 <!-- Base Link at the Center of the Chassis -->
 <link name="base_link">
-  <!-- <inertial>
-    <mass value="0.1"/>
-    <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
-  </inertial> -->
   <visual>
     <geometry>
       <sphere radius="0.01"/>  <!-- Small sphere for visual debugging -->
