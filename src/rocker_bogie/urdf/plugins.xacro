@@ -1,0 +1,48 @@
+<?xml version="1.0" ?>
+
+<robot name="plugins" xmlns:xacro="http://ros.org/wiki/xacro">
+    
+    <gazebo reference="lidar_link">
+    <material name="black"><color rgba="0.0 0.0 0.0 1.0"/></material>
+    <sensor type="ray" name="lidar_sensor">
+        <origin xyz="0 0 0.2" rpy="0 0 0"/>
+        <visualize>true</visualize>
+        <update_rate>60</update_rate>
+        <ray>
+        <scan>
+            <horizontal>
+            <samples>360</samples>
+            <resolution>1</resolution>
+            <min_angle>0</min_angle> <!-- -90 degrees -->
+            <max_angle>6.28</max_angle>  <!-- +90 degrees -->
+            </horizontal>
+        </scan>
+        <range>
+            <min>0.2</min> <!-- Min detection distance -->
+            <max>3.5</max> <!-- Max detection distance -->
+            <resolution>0.01d</resolution>
+        </range>
+        <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.01</stddev>
+        </noise>
+        </ray>
+        <plugin name="gazebo_ros_laser" filename="libgazebo_ros_laser.so">
+        <topicName>scan</topicName>
+        <frameName>lidar_link</frameName>
+        </plugin>
+    </sensor>
+    </gazebo>
+    
+    <gazebo>
+    <plugin name="skid_steering_plugin" filename="libskid_steering_plugin.so">
+        <left_joint>joint_wheel_front_left</left_joint>
+        <left_joint>joint_wheel_middle_left</left_joint>
+        <left_joint>joint_wheel_back_left</left_joint>
+        <right_joint>joint_wheel_front_right</right_joint>
+        <right_joint>joint_wheel_middle_right</right_joint>
+        <right_joint>joint_wheel_back_right</right_joint>
+    </plugin>
+    </gazebo>
+</robot>
