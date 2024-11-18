@@ -10,4 +10,8 @@
       <param name="map_frame"  value="map"/>
       <rosparam command="load" file="$(find rocker_bogie)/config/gmapping_params.yaml" />
     </node>
+
+    <!-- Launch RViz for visualization -->
+    <!-- <node name="rviz" pkg="rviz" type="rviz" required="true" output="screen"
+    args="-d $(find rocker_bogie)/rviz/slam.rviz"/> -->
   </launch>
