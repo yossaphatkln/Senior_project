@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<robot name="rocker_bogie_sim" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <gazebo reference="base_scan">
+    <material>Gazebo/Red</material>
+  </gazebo>
+
+  <gazebo reference="chassis">
+    <material>Gazebo/Green</material>
+  </gazebo>
+
+  <gazebo reference="cylinder_connector">
+    <material>Gazebo/Grey</material>
+  </gazebo>
+
+  <gazebo reference="rocker_left">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+  <gazebo reference="rocker_right">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+  <gazebo reference="bogie_left">
+    <material>Gazebo/Red</material>
+  </gazebo>
+
+  <gazebo reference="bogie_right">
+    <material>Gazebo/Red</material>
+  </gazebo>
+
+  <gazebo reference="joint_cylinder_left_to_rocker_left">
+    <spring_reference>0.0</spring_reference>
+    <spring_stiffness>50.0</spring_stiffness>
+    <damping>0.5</damping>
+  </gazebo>
+
+  <gazebo reference="joint_cylinder_left_to_rocker_right">
+    <spring_reference>0.0</spring_reference>
+    <spring_stiffness>50.0</spring_stiffness>
+    <damping>0.5</damping>
+  </gazebo>
+
+  <gazebo reference="joint_rocker_to_bogie_left">
+    <spring_reference>0.0</spring_reference>
+    <spring_stiffness>50.0</spring_stiffness>
+    <damping>0.5</damping>
+  </gazebo>
+
+  <gazebo reference="joint_rocker_to_bogie_right">
+    <spring_reference>0.0</spring_reference>
+    <spring_stiffness>50.0</spring_stiffness>
+    <damping>0.5</damping>
+  </gazebo>
+
+  <gazebo reference="wheel_front_left">
+    <material>Gazebo/FlatBlack</material>
+  </gazebo>
+
+  <gazebo reference="wheel_middle_left">
+    <material>Gazebo/FlatBlack</material>
+  </gazebo>
+
+  <gazebo reference="wheel_back_left">
+    <material>Gazebo/FlatBlack</material>
+  </gazebo>
+
+  <gazebo reference="wheel_front_right">
+    <material>Gazebo/FlatBlack</material>
+  </gazebo>
+
+  <gazebo reference="wheel_middle_right">
+    <material>Gazebo/FlatBlack</material>
+  </gazebo>
+
+  <gazebo reference="wheel_back_right">
+    <material>Gazebo/FlatBlack</material>
+  </gazebo>
+
+</robot>

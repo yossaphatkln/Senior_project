@@ -5,7 +5,7 @@
   
     <!-- Map server -->
     <node pkg="map_server" name="map_server" type="map_server" args="$(arg map_file)"/>
-  
+
     <!-- AMCL -->
     <include file="$(find rocker_bogie)/launch/amcl.launch"/>
   
