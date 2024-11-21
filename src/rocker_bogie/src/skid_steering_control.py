@@ -66,8 +66,10 @@ class SkidSteeringControl:
 
         forward = [50, 50, 50, 50, 50, 50]
         backward = [-50, -50, -50, -50, -50, -50]
-        left_turn = [-40, -35, -30, 30, 35, 40]
-        right_turn = [30, 35, 40, -40, -35, -30]
+        # left_turn = [-40, -35, -30, 30, 35, 40]
+        # right_turn = [30, 35, 40, -40, -35, -30]
+        left_turn = [-50, -50, -50, 50, 50, 50]
+        right_turn = [50, 50, 50, -50, -50, -50]
 
         scalar = 0.5
         forward_scaled = self.scalar_multiply(scalar, forward)

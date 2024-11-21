@@ -69,8 +69,8 @@ def odometry_publisher():
         last_time = current_time
 
         # Calculate average velocities for left and right wheel sets
-        left_avg = (left_front_vel + left_middle_vel + left_back_vel) / 3/20
-        right_avg = (right_front_vel + right_middle_vel + right_back_vel) / 3/20
+        left_avg = (left_front_vel + left_middle_vel + left_back_vel) / 3/15
+        right_avg = (right_front_vel + right_middle_vel + right_back_vel) / 3/15
 
         # Calculate linear and angular velocities
         vx = (left_avg + right_avg) / 2.0  # Linear velocity
