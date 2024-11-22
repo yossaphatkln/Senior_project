@@ -1,0 +1,335 @@
+<?xml version="1.0"?>
+<robot name="rocker_bogie_no_lidar" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:include filename="$(find rocker_bogie)/urdf/color.xacro" />
+  <xacro:include filename="$(find rocker_bogie)/urdf/rocker_bogie.gazebo.xacro" />
+
+  <!-- Properties for reuse -->
+  <xacro:property name="wheel_radius" value="0.07" />
+  <xacro:property name="wheel_length" value="0.04" />
+  <xacro:property name="chassis_size" value="0.334 0.254 0.115" />
+  <xacro:property name="wheel_color" value="0.3 0.3 0.3 1" />
+
+  <link name="base_link"></link>
+
+  <link name="base_scan">
+    <visual>
+      <origin xyz="0 0 0.1" rpy="0 0 0" />
+      <geometry>
+        <cylinder length="0.05" radius="0.02" />
+      </geometry>
+    </visual>
+  </link>
+
+  <joint name="scan_joint" type="fixed">
+    <parent link="base_link" />
+    <child link="base_scan" />
+    <origin xyz="0 0 0.2" rpy="0 0 0" />
+  </joint>
+
+  <link name="base_footprint" />
+
+  <joint name="base_joint" type="fixed">
+    <parent link="base_footprint" />
+    <child link="base_link" />
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </joint>
+
+  <!-- Macro for Chassis -->
+  <xacro:macro name="chassis" params="">
+    <link name="chassis">
+      <visual>
+        <geometry>
+          <box size="${chassis_size}" />
+        </geometry>
+        <origin xyz="0 0 0" />
+        <material name="green" />
+      </visual>
+
+      <collision>
+        <geometry>
+          <box size="${chassis_size}" />
+        </geometry>
+        <origin xyz="0 0 0" />
+      </collision>
+
+      <inertial>
+        <mass value="5.3" />
+        <!-- <mass value="15"/> -->
+        <origin xyz="0 0 0" />
+        <inertia ixx="0.5" ixy="0" ixz="0" iyy="0.5" iyz="0" izz="0.8" />
+      </inertial>
+    </link>
+  </xacro:macro>
+
+
+  <!-- Macro for Cylinder Connector -->
+  <xacro:macro name="cylinder_connector" params="name position_y">
+    <link name="${name}">
+      <visual>
+        <geometry>
+          <cylinder radius="0.0075" length="0.03" />
+        </geometry>
+        <origin xyz="0 ${position_y} 0" rpy="1.5707 0 0" />
+        <material name="grey" />
+      </visual>
+
+      <collision>
+        <geometry>
+          <cylinder radius="0.0075" length="0.028" />
+        </geometry>
+        <origin xyz="0 ${position_y} 0" rpy="1.5707 0 0" />
+      </collision>
+
+      <inertial>
+        <mass value="0.5" />
+        <origin xyz="0 ${position_y} 0" />  <!-- CoM aligned with connector -->
+        <inertia ixx="0.00005" ixy="0" ixz="0" iyy="0.00005" iyz="0" izz="0.0001" />
+      </inertial>
+    </link>
+  </xacro:macro>
+
+  <!-- Macro for Rocker Arms -->
+  <xacro:macro name="rocker_arm" params="name position_y">
+    <link name="${name}">
+
+      <visual> <!-- Horizontal Bar Collision -->
+        <geometry>
+          <box size="0.32 0.024 0.024" />
+        </geometry>
+        <origin xyz="-0.147 ${position_y} 0" />
+        <material name="blue" />
+      </visual>
+
+      <visual> <!-- Vertical Bar Collision -->
+        <geometry>
+          <box size="0.024 0.024 0.186" />
+        </geometry>
+        <origin xyz="-0.294 ${position_y} -0.1" />
+        <material name="blue" />
+      </visual>
+
+      <visual> <!-- Rotating Bar Collision -->
+        <geometry>
+          <box size="0.024 0.024 0.12" />
+        </geometry>
+        <origin xyz="0.055 ${position_y} -0.055" rpy="0 -0.61 0" />
+        <material name="blue" />
+      </visual>
+
+      <collision> <!-- Horizontal Bar Collision -->
+        <geometry>
+          <box size="0.32 0.024 0.024" />
+        </geometry>
+        <origin xyz="-0.147 ${position_y} 0" />
+      </collision>
+
+      <collision> <!-- Vertical Bar Collision -->
+        <geometry>
+          <box size="0.024 0.024 0.186" />
+        </geometry>
+        <origin xyz="-0.294 ${position_y} -0.1" />
+      </collision>
+
+      <collision> <!-- Rotating Bar Collision -->
+        <geometry>
+          <box size="0.024 0.024 0.12" />
+        </geometry>
+        <origin xyz="0.055 ${position_y} -0.055" rpy="0 -0.61 0" />
+      </collision>
+
+      <inertial>
+        <!-- Adjusted mass to match the size -->
+        <mass value="0.25" />
+        <!-- <mass value="3"/>   -->
+        <!-- CoM aligned to the center of the rocker arm -->
+        <origin xyz="-0.15 ${position_y} 0" />
+
+        <!-- Adjusted inertia tensor values -->
+        <inertia ixx="0.005" ixy="0" ixz="0" iyy="0.006" iyz="0" izz="0.007" />
+      </inertial>
+    </link>
+  </xacro:macro>
+
+  <!-- Macro for Bogie Arms -->
+  <xacro:macro name="bogie_arm" params="name position_y">
+    <link name="${name}">
+      <visual> <!-- Horizontal Bar -->
+        <geometry>
+          <box size="0.07 0.024 0.024" />
+        </geometry>
+        <origin xyz="0.177 ${position_y} 0.1" />
+        <material name="orange" />
+      </visual>
+
+      <visual> <!-- Front Vertical Bar -->
+        <geometry>
+          <box size="0.024 0.024 0.162" />
+        </geometry>
+        <origin xyz="0.2 ${position_y} 0.01" />
+        <material name="orange" />
+      </visual>
+
+      <visual> <!-- Back Rotating Bar -->
+        <geometry>
+          <box size="0.024 0.024 0.323" />
+        </geometry>
+        <origin xyz="0.01 ${position_y} 0.01" rpy="0 0.96 0" />
+        <material name="orange" />
+      </visual>
+
+      <collision> <!-- Horizontal Bar Collision -->
+        <geometry>
+          <box size="0.07 0.024 0.024" />
+        </geometry>
+        <origin xyz="0.177 ${position_y} 0.1" />
+      </collision>
+
+      <collision> <!-- Front Vertical Bar Collision -->
+        <geometry>
+          <box size="0.024 0.024 0.162" />
+        </geometry>
+        <origin xyz="0.2 ${position_y} 0.01" />
+      </collision>
+
+      <collision> <!-- Back Rotating Bar Collision -->
+        <geometry>
+          <box size="0.024 0.024 0.323" />
+        </geometry>
+        <origin xyz="0.01 ${position_y} 0.01" rpy="0 0.96 0" />
+      </collision>
+
+      <inertial>
+        <mass value="0.4" />
+        <!-- <mass value="2.5"/> -->
+        <origin xyz="0 0 0" />
+        <inertia ixx="0.004" ixy="0" ixz="0" iyy="0.004" iyz="0" izz="0.008" />
+      </inertial>
+    </link>
+  </xacro:macro>
+
+  <!-- Create Links -->
+  <xacro:chassis />
+  <xacro:rocker_arm name="rocker_left" position_y="0" />
+  <xacro:rocker_arm name="rocker_right" position_y="0" />
+  <xacro:bogie_arm name="bogie_left" position_y="0" />
+  <xacro:bogie_arm name="bogie_right" position_y="0" />
+  <xacro:cylinder_connector name="cylinder_connector_left" position_y="0.145" />
+  <xacro:cylinder_connector name="cylinder_connector_right" position_y="-0.145" />
+
+
+  <!-- MACRO : Fixed Joints -->
+  <xacro:macro name="fixed_joint" params="joint_name parent_link child_link origin_z">
+    <joint name="${joint_name}" type="fixed">
+      <parent link="${parent_link}" />
+      <child link="${child_link}" />
+      <origin xyz="0 0 ${origin_z}" />
+    </joint>
+  </xacro:macro>
+
+  <!-- Create Fixed Joints -->
+  <xacro:fixed_joint joint_name="base_to_chassis" parent_link="base_link" child_link="chassis"
+    origin_z="0" />
+  <xacro:fixed_joint joint_name="joint_chassis_to_cylinder_left" parent_link="chassis"
+    child_link="cylinder_connector_left" origin_z="0" />
+  <xacro:fixed_joint joint_name="joint_chassis_to_cylinder_right" parent_link="chassis"
+    child_link="cylinder_connector_right" origin_z="0" />
+
+
+  <!-- MACRO : Revolute Joints -->
+  <xacro:macro name="revolute_joint"
+    params="joint_name parent_link child_link origin_x origin_y origin_z">
+    <joint name="${joint_name}" type="revolute">
+      <parent link="${parent_link}" />
+      <child link="${child_link}" />
+      <origin xyz="${origin_x} ${origin_y} ${origin_z}" />
+      <axis xyz="0 1 0" />
+      <limit lower="-0.26" upper="0.26" velocity="100" effort="100" />
+      <dynamics damping="0.5" spring_stiffness="50" />
+    </joint>
+  </xacro:macro>
+
+
+  <!-- Create Relovute joints : CYlinder-Rocker-Bogie-->
+  <xacro:revolute_joint joint_name="joint_cylinder_left_to_rocker_left"
+    parent_link="cylinder_connector_left" child_link="rocker_left" origin_x="0" origin_y="0.165"
+    origin_z="0" />
+  <xacro:revolute_joint joint_name="joint_cylinder_left_to_rocker_right"
+    parent_link="cylinder_connector_right" child_link="rocker_right" origin_x="0" origin_y="-0.165"
+    origin_z="0" />
+  <xacro:revolute_joint joint_name="joint_rocker_to_bogie_left" parent_link="rocker_left"
+    child_link="bogie_left" origin_x="0.1" origin_y="0" origin_z="-0.1" />
+  <xacro:revolute_joint joint_name="joint_rocker_to_bogie_right" parent_link="rocker_right"
+    child_link="bogie_right" origin_x="0.1" origin_y="0" origin_z="-0.1" />
+
+
+  <!-- Macro  Wheels links -->
+  <xacro:macro name="wheel" params="name">
+    <link name="${name}">
+      <visual>
+        <geometry>
+          <cylinder radius="${wheel_radius}" length="${wheel_length}" />
+        </geometry>
+        <origin xyz="0 0 0" rpy="1.5707 0 0" />
+        <material name="grey" />
+      </visual>
+      <collision>
+        <geometry>
+          <cylinder radius="${wheel_radius}" length="${wheel_length}" />
+        </geometry>
+        <origin xyz="0 0 0" rpy="1.5707 0 0" />
+      </collision>
+      <inertial>
+        <mass value="4" />
+        <origin xyz="0 0 0" />
+        <inertia ixx="0.0005" ixy="0" ixz="0" iyy="0.0005" iyz="0" izz="0.001" />
+      </inertial>
+    </link>
+  </xacro:macro>
+
+  <!-- MACRO : Wheel Joints -->
+  <xacro:macro name="wheel_joint" params="wheel_name parent_link origin_x origin_y origin_z">
+    <joint name="joint_${wheel_name}" type="continuous">
+      <parent link="${parent_link}" /> <!-- Attach the wheel to the correct parent link (e.g., bogie
+      or rocker) -->
+      <child link="${wheel_name}" />
+      <origin xyz="${origin_x} ${origin_y} ${origin_z}" />
+      <axis xyz="0 1 0" /> <!-- Rotate around y-axis -->
+    </joint>
+  </xacro:macro>
+
+  <!-- Create Wheel link  -->
+  <xacro:wheel name="wheel_front_left" />
+  <xacro:wheel name="wheel_middle_left" />
+  <xacro:wheel name="wheel_back_left" />
+  <xacro:wheel name="wheel_front_right" />
+  <xacro:wheel name="wheel_middle_right" />
+  <xacro:wheel name="wheel_back_right" />
+
+  <!-- Create Wheel Joint  -->
+  <xacro:wheel_joint wheel_name="wheel_front_left" parent_link="bogie_left" origin_x="0.2"
+    origin_y="0.03" origin_z="-0.07" />
+  <xacro:wheel_joint wheel_name="wheel_middle_left" parent_link="bogie_left" origin_x="-0.12"
+    origin_y="0.03" origin_z="-0.07" />
+  <xacro:wheel_joint wheel_name="wheel_back_left" parent_link="rocker_left" origin_x="-0.3"
+    origin_y="0.03" origin_z="-0.17" />
+  <xacro:wheel_joint wheel_name="wheel_front_right" parent_link="bogie_right" origin_x="0.2"
+    origin_y="-0.03" origin_z="-0.07" />
+  <xacro:wheel_joint wheel_name="wheel_middle_right" parent_link="bogie_right" origin_x="-0.12"
+    origin_y="-0.03" origin_z="-0.07" />
+  <xacro:wheel_joint wheel_name="wheel_back_right" parent_link="rocker_right" origin_x="-0.3"
+    origin_y="-0.03" origin_z="-0.17" />
+
+
+  <gazebo>
+    <plugin name="skid_steering_plugin" filename="libskid_steering_plugin.so">
+      <left_joint>joint_wheel_front_left</left_joint>
+      <left_joint>joint_wheel_middle_left</left_joint>
+      <left_joint>joint_wheel_back_left</left_joint>
+      <right_joint>joint_wheel_front_right</right_joint>
+      <right_joint>joint_wheel_middle_right</right_joint>
+      <right_joint>joint_wheel_back_right</right_joint>
+    </plugin>
+  </gazebo>
+
+</robot>
