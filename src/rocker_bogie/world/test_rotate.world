@@ -1,0 +1,406 @@
+<?xml version="1.0"?>
+<sdf version="1.6">
+  <world name="circular_test_world">
+    <!-- Add lighting -->
+    <include>
+      <uri>model://sun</uri>
+    </include>
+
+    <!-- Point light at the center -->
+    <light type="point" name="center_light">
+      <pose>0 0 1 0 0 0</pose> <!-- Positioned 1m above the center -->
+      <diffuse>1 1 1 1</diffuse> <!-- White light -->
+      <specular>0.5 0.5 0.5 1</specular>
+      <attenuation>
+        <range>10</range> <!-- Range of the light -->
+        <constant>0.5</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>true</cast_shadows>
+    </light>
+
+    <!-- Circular floor -->
+    <model name="circular_floor">
+      <static>true</static>
+      <link name="floor_link">
+        <visual name="circular_floor_visual">
+          <geometry>
+            <cylinder>
+              <radius>5</radius> <!-- Radius of the circular floor -->
+              <length>0.01</length> <!-- Thin floor -->
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>1 1 1 1</ambient> <!-- White color -->
+          </material>
+        </visual>
+        <collision name="circular_floor_collision">
+          <geometry>
+            <cylinder>
+              <radius>5</radius>
+              <length>0.01</length>
+            </cylinder>
+          </geometry>
+        </collision>
+      </link>
+    </model>
+
+    <!-- Add indicators around the circle -->
+    <model name="circle_indicators">
+      <static>true</static>
+      <link name="indicators_link">
+        <!-- Indicators placed at 15-degree intervals -->
+        <!-- 0° -->
+        <visual name="indicator_0">
+          <pose>3 0 0.01 0 1.57 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.03</radius>
+              <length>4</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0 0 0 1</ambient> <!-- Black -->
+          </material>
+        </visual>
+
+        <!-- 15° -->
+        <visual name="indicator_15">
+          <pose>2.89 0.78 0.01 0 1.57 0.26</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.03</radius>
+              <length>4</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>1 1 0 1</ambient> <!-- Yellow -->
+          </material>
+        </visual>
+
+        <!-- 30° -->
+        <visual name="indicator_30">
+          <pose>2.6 1.5 0.01 0 1.57 0.52</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.03</radius>
+              <length>4</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0 0 0 1</ambient> <!-- Black -->
+          </material>
+        </visual>
+
+        <!-- 45° -->
+        <visual name="indicator_45">
+          <pose>2.12 2.12 0.01 0 1.57 0.79</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.03</radius>
+              <length>4</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>1 1 0 1</ambient> <!-- Yellow -->
+          </material>
+        </visual>
+
+        <!-- 60° -->
+        <visual name="indicator_60">
+          <pose>1.5 2.6 0.01 0 1.57 1.05</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.03</radius>
+              <length>4</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0 0 0 1</ambient> <!-- Black -->
+          </material>
+        </visual>
+
+        <!-- 75° -->
+        <visual name="indicator_75">
+          <pose>0.78 2.89 0.01 0 1.57 1.31</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.03</radius>
+              <length>4</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>1 1 0 1</ambient> <!-- Yellow -->
+          </material>
+        </visual>
+
+        <!-- 90° -->
+        <visual name="indicator_90">
+          <pose>0 3 0.01 0 1.57 1.57</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.03</radius>
+              <length>4</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0 0 0 1</ambient> <!-- Black -->
+          </material>
+        </visual>
+
+        <!-- 105° -->
+        <visual name="indicator_105">
+          <pose>-0.78 2.89 0.01 0 1.57 1.83</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.03</radius>
+              <length>4</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>1 1 0 1</ambient> <!-- Yellow -->
+          </material>
+        </visual>
+
+        <!-- 120° -->
+        <visual name="indicator_120">
+          <pose>-1.5 2.6 0.01 0 1.57 2.09</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.03</radius>
+              <length>4</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0 0 0 1</ambient> <!-- Black -->
+          </material>
+        </visual>
+
+        <!-- 135° -->
+        <visual name="indicator_135">
+          <pose>-2.12 2.12 0.01 0 1.57 2.36</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.03</radius>
+              <length>4</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>1 1 0 1</ambient> <!-- Yellow -->
+          </material>
+        </visual>
+
+        <!-- 150° -->
+        <visual name="indicator_150">
+          <pose>-2.6 1.5 0.01 0 1.57 2.62</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.03</radius>
+              <length>4</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0 0 0 1</ambient> <!-- Black -->
+          </material>
+        </visual>
+
+        <!-- 165° -->
+        <visual name="indicator_165">
+          <pose>-2.89 0.78 0.01 0 1.57 2.88</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.03</radius>
+              <length>4</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>1 1 0 1</ambient> <!-- Yellow -->
+          </material>
+        </visual>
+
+        <!-- 180° -->
+        <visual name="indicator_180">
+          <pose>-3 0 0.01 0 1.57 3.14</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.03</radius>
+              <length>4</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0 0 0 1</ambient> <!-- Black -->
+          </material>
+        </visual>
+
+        <!-- 195° -->
+        <visual name="indicator_195">
+          <pose>-2.89 -0.78 0.01 0 1.57 -2.88</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.03</radius>
+              <length>4</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>1 1 0 1</ambient> <!-- Yellow -->
+          </material>
+        </visual>
+
+        <!-- 210° -->
+        <visual name="indicator_210">
+          <pose>-2.6 -1.5 0.01 0 1.57 -2.62</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.03</radius>
+              <length>4</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0 0 0 1</ambient> <!-- Black -->
+          </material>
+        </visual>
+
+        <!-- 225° -->
+        <visual name="indicator_225">
+          <pose>-2.12 -2.12 0.01 0 1.57 -2.36</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.03</radius>
+              <length>4</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>1 1 0 1</ambient> <!-- Yellow -->
+          </material>
+        </visual>
+
+        <!-- 240° -->
+        <visual name="indicator_240">
+          <pose>-1.5 -2.6 0.01 0 1.57 -2.09</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.03</radius>
+              <length>4</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0 0 0 1</ambient> <!-- Black -->
+          </material>
+        </visual>
+
+        <!-- 255° -->
+        <visual name="indicator_255">
+          <pose>-0.78 -2.89 0.01 0 1.57 -1.83</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.03</radius>
+              <length>4</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>1 1 0 1</ambient> <!-- Yellow -->
+          </material>
+        </visual>
+
+        <!-- 270° -->
+        <visual name="indicator_270">
+          <pose>0 -3 0.01 0 1.57 -1.57</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.03</radius>
+              <length>4</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0 0 0 1</ambient> <!-- Black -->
+          </material>
+        </visual>
+
+        <!-- 285° -->
+        <visual name="indicator_285">
+          <pose>0.78 -2.89 0.01 0 1.57 -1.31</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.03</radius>
+              <length>4</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>1 1 0 1</ambient> <!-- Yellow -->
+          </material>
+        </visual>
+
+        <!-- 300° -->
+        <visual name="indicator_300">
+          <pose>1.5 -2.6 0.01 0 1.57 -1.05</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.03</radius>
+              <length>4</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0 0 0 1</ambient> <!-- Black -->
+          </material>
+        </visual>
+
+        <!-- 315° -->
+        <visual name="indicator_315">
+          <pose>2.12 -2.12 0.01 0 1.57 -0.79</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.03</radius>
+              <length>4</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>1 1 0 1</ambient> <!-- Yellow -->
+          </material>
+        </visual>
+
+        <!-- 330° -->
+        <visual name="indicator_330">
+          <pose>2.6 -1.5 0.01 0 1.57 -0.52</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.03</radius>
+              <length>4</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0 0 0 1</ambient> <!-- Black -->
+          </material>
+        </visual>
+
+        <!-- 345° -->
+        <visual name="indicator_345">
+          <pose>2.89 -0.78 0.01 0 1.57 -0.26</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.03</radius>
+              <length>4</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>1 1 0 1</ambient> <!-- Yellow -->
+          </material>
+        </visual>
+
+        <!-- 360° -->
+        <visual name="indicator_360">
+          <pose>3 0 0.01 0 1.57 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.03</radius>
+              <length>4</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0 0 0 1</ambient> <!-- Black -->
+          </material>
+        </visual>
+      </link>
+    </model>
+  </world>
+</sdf>

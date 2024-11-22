@@ -1,0 +1,33 @@
+<launch>
+    <arg name="mode" default="runway"/>
+
+    <!-- Argument to pass the Xacro file path -->
+    <arg name="model" default="$(find rocker_bogie)/urdf/rocker_bogie.urdf_no_lidar.xacro" />
+
+    <!-- Robot Description -->
+    <param name="robot_description" 
+           command="$(find xacro)/xacro --inorder $(arg model)" />
+
+    <!-- Launch the robot_state_publisher to publish transforms -->
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" output="screen" />
+    <!-- Launch the joint_state_publisher to publish joint states -->
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" output="screen" />
+    <!-- Movement Publisher -->
+    <node pkg="rocker_bogie" type="movement_publisher.py" name="movement_publisher" output="screen"/>
+    <!-- Base Link Broadcaster -->
+    <node pkg="rocker_bogie" type="base_link_broadcaster.py" name="base_link_broadcaster" output="screen"/>
+
+    <!-- Launch an empty Gazebo world -->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="paused" value="false" />
+        <arg name="use_sim_time" value="true" />  <!-- Sync with ROS clock -->
+        <arg name="world_name" value="$(find rocker_bogie)/world/test_$(arg mode).world"/>
+    </include>
+
+    <!-- Spawn the rocker-bogie robot into Gazebo -->
+    <node name="spawn_rocker_bogie" pkg="gazebo_ros" type="spawn_model"
+          args="-urdf -param robot_description -model rocker_bogie -x 0 -y 0 -z 0.5" output="screen" />
+
+    <!-- Launch Control Node -->
+    <node pkg="rocker_bogie" type="skid_steering_control.py" name="skid_steering_control" output="screen"/>
+</launch>

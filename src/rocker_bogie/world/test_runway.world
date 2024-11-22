@@ -1,0 +1,233 @@
+<?xml version="1.0"?>
+<sdf version="1.6">
+  <world name="striped_runway_world">
+    <!-- Add lighting and ground plane -->
+    <include>
+      <uri>model://sun</uri>
+    </include>
+    <include>
+      <uri>model://ground_plane</uri>
+    </include>
+
+    <!-- Define the runway -->
+    <model name="striped_runway">
+      <static>true</static>
+      <link name="runway_link">
+
+        <!-- Start Stripes -->
+        <visual name="start_stripe">
+          <pose>0 0 0</pose>
+          <geometry>
+            <box>
+              <size>1 2 0.01</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 0 0 1</ambient>
+          </material>
+        </visual>
+
+        <!-- Black and Yellow Stripes -->
+        <visual name="black_stripe_1">
+          <pose>1 0 0</pose> <!-- Centered at (1, 0), shifted by 0.5m -->
+          <geometry>
+            <box>
+              <size>1 2 0.01</size> <!-- Length 1m, Width 2m, Height 0.01m -->
+            </box>
+          </geometry>
+          <material>
+            <ambient>0 0 0 1</ambient> <!-- Black color -->
+          </material>
+        </visual>
+
+        <!-- Yellow stripe 1 -->
+        <visual name="yellow_stripe_1">
+          <pose>2 0 0</pose> <!-- Centered at (2, 0), shifted by 0.5m -->
+          <geometry>
+            <box>
+              <size>1 2 0.01</size> <!-- Length 1m, Width 2m, Height 0.01m -->
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 1 0 1</ambient> <!-- Yellow color -->
+          </material>
+        </visual>
+
+        <!-- Black stripe 2 -->
+        <visual name="black_stripe_2">
+          <pose>3 0 0</pose> <!-- Centered at (3, 0), shifted by 0.5m -->
+          <geometry>
+            <box>
+              <size>1 2 0.01</size> <!-- Length 1m, Width 2m, Height 0.01m -->
+            </box>
+          </geometry>
+          <material>
+            <ambient>0 0 0 1</ambient> <!-- Black color -->
+          </material>
+        </visual>
+
+        <!-- Yellow stripe 2 -->
+        <visual name="yellow_stripe_2">
+          <pose>4 0 0</pose> <!-- Centered at (4, 0), shifted by 0.5m -->
+          <geometry>
+            <box>
+              <size>1 2 0.01</size> <!-- Length 1m, Width 2m, Height 0.01m -->
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 1 0 1</ambient> <!-- Yellow color -->
+          </material>
+        </visual>
+
+        <!-- Black stripe 3 -->
+        <visual name="black_stripe_3">
+          <pose>5 0 0</pose> <!-- Centered at (5, 0), shifted by 0.5m -->
+          <geometry>
+            <box>
+              <size>1 2 0.01</size> <!-- Length 1m, Width 2m, Height 0.01m -->
+            </box>
+          </geometry>
+          <material>
+            <ambient>0 0 0 1</ambient> <!-- Black color -->
+          </material>
+        </visual>
+
+        <!-- Yellow stripe 3 -->
+        <visual name="yellow_stripe_3">
+          <pose>6 0 0</pose> <!-- Centered at (6, 0), shifted by 0.5m -->
+          <geometry>
+            <box>
+              <size>1 2 0.01</size> <!-- Length 1m, Width 2m, Height 0.01m -->
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 1 0 1</ambient> <!-- Yellow color -->
+          </material>
+        </visual>
+
+        <!-- Black stripe 4 -->
+        <visual name="black_stripe_4">
+          <pose>7 0 0</pose> <!-- Centered at (7, 0), shifted by 0.5m -->
+          <geometry>
+            <box>
+              <size>1 2 0.01</size> <!-- Length 1m, Width 2m, Height 0.01m -->
+            </box>
+          </geometry>
+          <material>
+            <ambient>0 0 0 1</ambient> <!-- Black color -->
+          </material>
+        </visual>
+
+        <!-- Yellow stripe 4 -->
+        <visual name="yellow_stripe_4">
+          <pose>8 0 0</pose> <!-- Centered at (8, 0), shifted by 0.5m -->
+          <geometry>
+            <box>
+              <size>1 2 0.01</size> <!-- Length 1m, Width 2m, Height 0.01m -->
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 1 0 1</ambient> <!-- Yellow color -->
+          </material>
+        </visual>
+
+        <!-- Black stripe 5 -->
+        <visual name="black_stripe_5">
+          <pose>9 0 0</pose> <!-- Centered at (9, 0), shifted by 0.5m -->
+          <geometry>
+            <box>
+              <size>1 2 0.01</size> <!-- Length 1m, Width 2m, Height 0.01m -->
+            </box>
+          </geometry>
+          <material>
+            <ambient>0 0 0 1</ambient> <!-- Black color -->
+          </material>
+        </visual>
+
+        <!-- Yellow stripe 5 -->
+        <visual name="yellow_stripe_5">
+          <pose>10 0 0</pose> <!-- Centered at (10, 0), shifted by 0.5m -->
+          <geometry>
+            <box>
+              <size>1 2 0.01</size> <!-- Length 1m, Width 2m, Height 0.01m -->
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 1 0 1</ambient> <!-- Yellow color -->
+          </material>
+        </visual>
+
+        <!-- Add a Pole at 5 meters -->
+        <visual name="indicator_pole_5m">
+          <pose>5 1 0.5</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.05</radius> <!-- Pole radius -->
+              <length>1</length> <!-- Pole height -->
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>1 0 0 1</ambient> <!-- Red color -->
+          </material>
+        </visual>
+
+        <!-- Add a Pole at 10 meters -->
+        <visual name="indicator_pole_10m">
+          <pose>10 1 0.5</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.05</radius> <!-- Pole radius -->
+              <length>1</length> <!-- Pole height -->
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>1 0 0 1</ambient> <!-- Red color -->
+          </material>
+        </visual>
+
+        <!-- Light at 5 meters -->
+        <light type="point" name="light_0m">
+          <pose>0 0 2 0 0 0</pose>
+          <diffuse>1 1 1 1</diffuse>
+          <specular>0.5 0.5 0.5 1</specular>
+          <attenuation>
+            <range>10</range>
+            <constant>0.5</constant>
+            <linear>0.01</linear>
+            <quadratic>0.001</quadratic>
+          </attenuation>
+          <cast_shadows>true</cast_shadows>
+        </light>
+
+        <!-- Light at 5 meters -->
+        <light type="point" name="light_5m">
+          <pose>5 0 2 0 0 0</pose>
+          <diffuse>1 1 1 1</diffuse>
+          <specular>0.5 0.5 0.5 1</specular>
+          <attenuation>
+            <range>10</range>
+            <constant>0.5</constant>
+            <linear>0.01</linear>
+            <quadratic>0.001</quadratic>
+          </attenuation>
+          <cast_shadows>true</cast_shadows>
+        </light>
+
+        <!-- Light at 10 meters -->
+        <light type="point" name="light_10m">
+          <pose>10 0 2 0 0 0</pose>
+          <diffuse>1 1 1 1</diffuse>
+          <specular>0.5 0.5 0.5 1</specular>
+          <attenuation>
+            <range>10</range>
+            <constant>0.5</constant>
+            <linear>0.01</linear>
+            <quadratic>0.001</quadratic>
+          </attenuation>
+          <cast_shadows>true</cast_shadows>
+        </light>
+
+      </link>
+    </model>
+  </world>
+</sdf>
