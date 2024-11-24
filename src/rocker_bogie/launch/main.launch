@@ -33,7 +33,9 @@
     <include file="$(find gazebo_ros)/launch/empty_world.launch">
         <arg name="paused" value="false" />
         <arg name="use_sim_time" value="true" />  <!-- Sync with ROS clock -->
-        <arg name="world_name" value="$(find rocker_bogie)/world/$(arg world).world"/>
+        <group if="$(eval arg('mode') == 'slam' or arg('mode') == 'nav')">
+            <arg name="world_name" value="$(find rocker_bogie)/world/$(arg world).world" />
+        </group>
     </include>
 
     <!-- Spawn the rocker-bogie robot into Gazebo -->
