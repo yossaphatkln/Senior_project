@@ -6,9 +6,9 @@
     <!-- -2 0 for turtle -->
     <!-- -2 1 for house -->
 
-    <arg name="world" default="turtle"/>
-    <!-- <arg name="world" default="house"/>
-    <arg name="world" default="gas_station"/> -->
+    <!-- <arg name="world" default="turtle"/> -->
+    <arg name="world" default="house"/>
+    <!-- <arg name="world" default="gas_station"/> -->
 
     <arg name="mode" default="default"/>
 
@@ -33,9 +33,7 @@
     <include file="$(find gazebo_ros)/launch/empty_world.launch">
         <arg name="paused" value="false" />
         <arg name="use_sim_time" value="true" />  <!-- Sync with ROS clock -->
-        <group if="$(eval arg('mode') == 'slam' or arg('mode') == 'nav')">
-            <arg name="world_name" value="$(find rocker_bogie)/world/$(arg world).world" />
-        </group>
+        <arg name="world_name" value="$(find rocker_bogie)/world/$(arg world).world" />
     </include>
 
     <!-- Spawn the rocker-bogie robot into Gazebo -->
