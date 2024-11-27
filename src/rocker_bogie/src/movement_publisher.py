@@ -7,40 +7,24 @@ import tf
 import math
 
 # Wheel base distance (distance between left and right wheels)
-WHEEL_BASE = 0.4 * 15
+WHEEL_BASE = 0.35
+WHEEL_RADIUS = 0.07
 
 # Initialize velocities for each wheel
-left_front_vel = 0.0
-left_middle_vel = 0.0
-left_back_vel = 0.0
-right_front_vel = 0.0
-right_middle_vel = 0.0
-right_back_vel = 0.0
+left_front_vel = left_middle_vel = left_back_vel = 0.0
+right_front_vel = right_middle_vel = right_back_vel = 0.0
+
+# Frame IDs
+ODOM_FRAME = "odom"
+BASE_FRAME = "base_footprint"
 
 # Callback functions to update wheel velocities
-def left_front_callback(msg):
-    global left_front_vel
-    left_front_vel = msg.angular.z
-
-def left_middle_callback(msg):
-    global left_middle_vel
-    left_middle_vel = msg.angular.z
-
-def left_back_callback(msg):
-    global left_back_vel
-    left_back_vel = msg.angular.z
-
-def right_front_callback(msg):
-    global right_front_vel
-    right_front_vel = msg.angular.z
-
-def right_middle_callback(msg):
-    global right_middle_vel
-    right_middle_vel = msg.angular.z
-
-def right_back_callback(msg):
-    global right_back_vel
-    right_back_vel = msg.angular.z
+def left_front_callback(msg): global left_front_vel; left_front_vel = msg.angular.z
+def left_middle_callback(msg): global left_middle_vel; left_middle_vel = msg.angular.z
+def left_back_callback(msg): global left_back_vel; left_back_vel = msg.angular.z
+def right_front_callback(msg): global right_front_vel; right_front_vel = msg.angular.z
+def right_middle_callback(msg): global right_middle_vel; right_middle_vel = msg.angular.z
+def right_back_callback(msg): global right_back_vel; right_back_vel = msg.angular.z
 
 def odometry_publisher():
     rospy.init_node('odometry_publisher')
@@ -56,10 +40,8 @@ def odometry_publisher():
     rospy.Subscriber("/cmd_vel_right_back", Twist, right_back_callback)
 
     # Initial position and orientation
-    x = 0.0
-    y = 0.0
-    theta = 0.0
-
+    x = y = theta = 0.0
+    # last_x = last_y = last_theta = None
     rate = rospy.Rate(10)  # 10 Hz
     last_time = rospy.Time.now()
 
@@ -69,32 +51,28 @@ def odometry_publisher():
         last_time = current_time
 
         # Calculate average velocities for left and right wheel sets
-        left_avg = (left_front_vel + left_middle_vel + left_back_vel) / 3/15
-        right_avg = (right_front_vel + right_middle_vel + right_back_vel) / 3/15
+        left_avg = (left_front_vel + left_middle_vel + left_back_vel) / 3 * WHEEL_RADIUS
+        right_avg = (right_front_vel + right_middle_vel + right_back_vel) / 3 * WHEEL_RADIUS
 
         # Calculate linear and angular velocities
         vx = (left_avg + right_avg) / 2.0  # Linear velocity
-        vth = (right_avg - left_avg) / WHEEL_BASE  # Angular velocity
+        vth = (right_avg - left_avg) * WHEEL_RADIUS / WHEEL_BASE  # Angular velocity
 
-        # Determine movement direction based on wheel velocities
-        moving_forward = left_avg > 0 and right_avg > 0
-        moving_backward = left_avg < 0 and right_avg < 0
-        rotating_left = left_avg < 0 and right_avg > 0
-        rotating_right = left_avg > 0 and right_avg < 0
-
+        # Update position
         dx = vx * math.cos(theta) * dt
         dy = vx * math.sin(theta) * dt
         dth = vth * dt
+        x += dx
+        y += dy
+        theta += dth
 
-        # Update dx, dy, and dth based on movement type
-        if moving_forward or moving_backward:
-            # Moving forward or backward
-                x += dx
-                y += dy
-        elif rotating_left or rotating_right:
-            # Rotating left or right
-                theta += dth
-            
+        # Skip publishing if state hasn't changed significantly
+        # if last_x == x and last_y == y and last_theta == theta:
+        #     rate.sleep()
+        #     continue
+
+        # last_x, last_y, last_theta = x, y, theta
+
         # Create a quaternion from theta
         odom_quat = tf.transformations.quaternion_from_euler(0, 0, theta)
 
@@ -103,14 +81,14 @@ def odometry_publisher():
             (x, y, 0.0),
             odom_quat,
             current_time,
-            "base_footprint",
-            "odom"
+            BASE_FRAME,
+            ODOM_FRAME
         )
 
         # Publish the odometry message
         odom = Odometry()
         odom.header.stamp = current_time
-        odom.header.frame_id = "odom"
+        odom.header.frame_id = ODOM_FRAME
 
         # Set the position
         odom.pose.pose.position.x = x
@@ -119,7 +97,7 @@ def odometry_publisher():
         odom.pose.pose.orientation = Quaternion(*odom_quat)
 
         # Set the velocity
-        odom.child_frame_id = "base_footprint"
+        odom.child_frame_id = BASE_FRAME
         odom.twist.twist.linear.x = vx
         odom.twist.twist.angular.z = vth
 
