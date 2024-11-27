@@ -7,7 +7,7 @@
     <!-- -2 1 for house -->
 
     <!-- <arg name="world" default="turtle"/> -->
-    <arg name="world" default="house"/>
+    <arg name="world" default="empty"/>
     <!-- <arg name="world" default="gas_station"/> -->
 
     <arg name="mode" default="default"/>
