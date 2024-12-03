@@ -1,0 +1,143 @@
+<?xml version="1.0"?>
+<sdf version="1.6">
+  <world name="axis_lines_with_black_lines">
+    <!-- Sun and Ground Plane -->
+    <include>
+      <uri>model://sun</uri>
+    </include>
+
+
+    <!-- Light at 0 meters -->
+    <light type="point" name="light_0m">
+      <pose>0 0 5 0 0 0</pose>
+      <diffuse>1 1 1 1</diffuse>
+      <specular>0.5 0.5 0.5 1</specular>
+      <attenuation>
+        <range>10</range>
+        <constant>0.5</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>true</cast_shadows>
+    </light>
+
+
+    <!-- White floor with collision -->
+    <model name="white_floor">
+      <static>true</static>
+      <link name="floor_link">
+        <visual name="floor_visual">
+          <pose>0 0 -0.01 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>10 10 0.01</size> <!-- Large white floor -->
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 1 1 1</ambient> <!-- White color -->
+            <diffuse>1 1 1 1</diffuse>
+          </material>
+        </visual>
+        <collision name="floor_collision">
+          <pose>0 0 -0.01 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>10 10 0.01</size> <!-- Collision matches floor size -->
+            </box>
+          </geometry>
+        </collision>
+      </link>
+    </model>
+
+    <!-- X-axis main line -->
+    <model name="x_axis_line">
+      <static>true</static>
+      <link name="x_axis_link">
+        <visual name="x_axis_visual">
+          <pose>0 0 0.01 0 0 0</pose> <!-- Slightly above the floor -->
+          <geometry>
+            <box>
+              <size>5 0.1 0.01</size> <!-- Main X-axis line -->
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 0 0 1</ambient> <!-- Red color -->
+            <diffuse>1 0 0 1</diffuse>
+          </material>
+        </visual>
+
+        <!-- Thin black lines at +0.2 and -0.2 meters on Y-axis -->
+        <visual name="x_axis_black_positive">
+          <pose>0 0.2 0.01 0 0 0</pose> <!-- +0.2 meters from X-axis -->
+          <geometry>
+            <box>
+              <size>5 0.02 0.01</size> <!-- Thin black line -->
+            </box>
+          </geometry>
+          <material>
+            <ambient>0 0 0 1</ambient> <!-- Black color -->
+            <diffuse>0 0 0 1</diffuse>
+          </material>
+        </visual>
+        <visual name="x_axis_black_negative">
+          <pose>0 -0.2 0.01 0 0 0</pose> <!-- -0.2 meters from X-axis -->
+          <geometry>
+            <box>
+              <size>5 0.02 0.01</size> <!-- Thin black line -->
+            </box>
+          </geometry>
+          <material>
+            <ambient>0 0 0 1</ambient> <!-- Black color -->
+            <diffuse>0 0 0 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Y-axis main line -->
+    <model name="y_axis_line">
+      <static>true</static>
+      <link name="y_axis_link">
+        <visual name="y_axis_visual">
+          <pose>0 0 0.01 0 0 1.5708</pose> <!-- Rotate 90 degrees for Y-axis -->
+          <geometry>
+            <box>
+              <size>5 0.1 0.01</size> <!-- Main Y-axis line -->
+            </box>
+          </geometry>
+          <material>
+            <ambient>0 1 0 1</ambient> <!-- Green color -->
+            <diffuse>0 1 0 1</diffuse>
+          </material>
+        </visual>
+
+        <!-- Thin black lines at +0.2 and -0.2 meters on X-axis -->
+        <visual name="y_axis_black_positive">
+          <pose>0.2 0 0.01 0 0 1.5708</pose> <!-- +0.2 meters from Y-axis -->
+          <geometry>
+            <box>
+              <size>5 0.02 0.01</size> <!-- Thin black line -->
+            </box>
+          </geometry>
+          <material>
+            <ambient>0 0 0 1</ambient> <!-- Black color -->
+            <diffuse>0 0 0 1</diffuse>
+          </material>
+        </visual>
+        <visual name="y_axis_black_negative">
+          <pose>-0.2 0 0.01 0 0 1.5708</pose> <!-- -0.2 meters from Y-axis -->
+          <geometry>
+            <box>
+              <size>5 0.02 0.01</size> <!-- Thin black line -->
+            </box>
+          </geometry>
+          <material>
+            <ambient>0 0 0 1</ambient> <!-- Black color -->
+            <diffuse>0 0 0 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+  </world>
+</sdf>

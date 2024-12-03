@@ -1,8 +1,7 @@
 <?xml version="1.0"?>
-<robot name="rocker_bogie" xmlns:xacro="http://www.ros.org/wiki/xacro">
+<robot name="rocker_bogie_no_lidar" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
   <xacro:include filename="$(find rocker_bogie)/urdf/color.xacro" />
-  <xacro:include filename="$(find rocker_bogie)/urdf/plugins.xacro" />
   <xacro:include filename="$(find rocker_bogie)/urdf/rocker_bogie.gazebo.xacro" />
 
   <!-- Properties for reuse -->
@@ -55,9 +54,10 @@
       </collision>
 
       <inertial>
-        <mass value="6.3" />
+        <mass value="5.3" />
+        <!-- <mass value="15"/> -->
         <origin xyz="0 0 0" />
-        <inertia ixx="0.033" ixy="0" ixz="0" iyy="0.052" iyz="0" izz="0.073" />
+        <inertia ixx="0.5" ixy="0" ixz="0" iyy="0.5" iyz="0" izz="0.8" />
       </inertial>
     </link>
   </xacro:macro>
@@ -244,19 +244,23 @@
       <child link="${child_link}" />
       <origin xyz="${origin_x} ${origin_y} ${origin_z}" />
       <axis xyz="0 1 0" />
-      <limit lower="-0.33" upper="0.33" velocity="100" effort="50" />
-      <dynamics damping="1" spring_stiffness="100" />
+      <limit lower="-0.26" upper="0.26" velocity="100" effort="100" />
+      <dynamics damping="0.5" spring_stiffness="50" />
     </joint>
   </xacro:macro>
 
 
   <!-- Create Relovute joints : CYlinder-Rocker-Bogie-->
   <xacro:revolute_joint joint_name="joint_cylinder_left_to_rocker_left"
-    parent_link="cylinder_connector_left" child_link="rocker_left" origin_x="0" origin_y="0.165" origin_z="0" />
+    parent_link="cylinder_connector_left" child_link="rocker_left" origin_x="0" origin_y="0.165"
+    origin_z="0" />
   <xacro:revolute_joint joint_name="joint_cylinder_left_to_rocker_right"
-    parent_link="cylinder_connector_right" child_link="rocker_right" origin_x="0" origin_y="-0.165" origin_z="0" />
-  <xacro:revolute_joint joint_name="joint_rocker_to_bogie_left" parent_link="rocker_left" child_link="bogie_left" origin_x="0.1" origin_y="0" origin_z="-0.1" />
-  <xacro:revolute_joint joint_name="joint_rocker_to_bogie_right" parent_link="rocker_right" child_link="bogie_right" origin_x="0.1" origin_y="0" origin_z="-0.1" />
+    parent_link="cylinder_connector_right" child_link="rocker_right" origin_x="0" origin_y="-0.165"
+    origin_z="0" />
+  <xacro:revolute_joint joint_name="joint_rocker_to_bogie_left" parent_link="rocker_left"
+    child_link="bogie_left" origin_x="0.1" origin_y="0" origin_z="-0.1" />
+  <xacro:revolute_joint joint_name="joint_rocker_to_bogie_right" parent_link="rocker_right"
+    child_link="bogie_right" origin_x="0.1" origin_y="0" origin_z="-0.1" />
 
 
   <!-- Macro  Wheels links -->
@@ -315,5 +319,17 @@
     origin_y="-0.03" origin_z="-0.07" />
   <xacro:wheel_joint wheel_name="wheel_back_right" parent_link="rocker_right" origin_x="-0.3"
     origin_y="-0.03" origin_z="-0.17" />
+
+
+  <gazebo>
+    <plugin name="skid_steering_plugin" filename="libskid_steering_plugin.so">
+      <left_joint>joint_wheel_front_left</left_joint>
+      <left_joint>joint_wheel_middle_left</left_joint>
+      <left_joint>joint_wheel_back_left</left_joint>
+      <right_joint>joint_wheel_front_right</right_joint>
+      <right_joint>joint_wheel_middle_right</right_joint>
+      <right_joint>joint_wheel_back_right</right_joint>
+    </plugin>
+  </gazebo>
 
 </robot>
