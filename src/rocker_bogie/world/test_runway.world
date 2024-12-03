@@ -185,9 +185,9 @@
           </material>
         </visual>
 
-        <!-- Light at 5 meters -->
+        <!-- Light at 0 meters -->
         <light type="point" name="light_0m">
-          <pose>0 0 2 0 0 0</pose>
+          <pose>0 0 5 0 0 0</pose>
           <diffuse>1 1 1 1</diffuse>
           <specular>0.5 0.5 0.5 1</specular>
           <attenuation>
@@ -201,7 +201,7 @@
 
         <!-- Light at 5 meters -->
         <light type="point" name="light_5m">
-          <pose>5 0 2 0 0 0</pose>
+          <pose>5 0 5 0 0 0</pose>
           <diffuse>1 1 1 1</diffuse>
           <specular>0.5 0.5 0.5 1</specular>
           <attenuation>
@@ -215,7 +215,7 @@
 
         <!-- Light at 10 meters -->
         <light type="point" name="light_10m">
-          <pose>10 0 2 0 0 0</pose>
+          <pose>10 0 5 0 0 0</pose>
           <diffuse>1 1 1 1</diffuse>
           <specular>0.5 0.5 0.5 1</specular>
           <attenuation>

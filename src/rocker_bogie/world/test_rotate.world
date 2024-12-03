@@ -1,18 +1,19 @@
 <?xml version="1.0"?>
 <sdf version="1.6">
-  <world name="circular_test_world">
-    <!-- Add lighting -->
+  <world name="axis_lines_with_black_lines">
+    <!-- Sun and Ground Plane -->
     <include>
       <uri>model://sun</uri>
     </include>
 
-    <!-- Point light at the center -->
-    <light type="point" name="center_light">
-      <pose>0 0 1 0 0 0</pose> <!-- Positioned 1m above the center -->
-      <diffuse>1 1 1 1</diffuse> <!-- White light -->
+
+    <!-- Light at 0 meters -->
+    <light type="point" name="light_0m">
+      <pose>0 0 5 0 0 0</pose>
+      <diffuse>1 1 1 1</diffuse>
       <specular>0.5 0.5 0.5 1</specular>
       <attenuation>
-        <range>10</range> <!-- Range of the light -->
+        <range>10</range>
         <constant>0.5</constant>
         <linear>0.01</linear>
         <quadratic>0.001</quadratic>
@@ -20,387 +21,123 @@
       <cast_shadows>true</cast_shadows>
     </light>
 
-    <!-- Circular floor -->
-    <model name="circular_floor">
+
+    <!-- White floor with collision -->
+    <model name="white_floor">
       <static>true</static>
       <link name="floor_link">
-        <visual name="circular_floor_visual">
+        <visual name="floor_visual">
+          <pose>0 0 -0.01 0 0 0</pose>
           <geometry>
-            <cylinder>
-              <radius>5</radius> <!-- Radius of the circular floor -->
-              <length>0.01</length> <!-- Thin floor -->
-            </cylinder>
+            <box>
+              <size>10 10 0.01</size> <!-- Large white floor -->
+            </box>
           </geometry>
           <material>
             <ambient>1 1 1 1</ambient> <!-- White color -->
+            <diffuse>1 1 1 1</diffuse>
           </material>
         </visual>
-        <collision name="circular_floor_collision">
+        <collision name="floor_collision">
+          <pose>0 0 -0.01 0 0 0</pose>
           <geometry>
-            <cylinder>
-              <radius>5</radius>
-              <length>0.01</length>
-            </cylinder>
+            <box>
+              <size>10 10 0.01</size> <!-- Collision matches floor size -->
+            </box>
           </geometry>
         </collision>
       </link>
     </model>
 
-    <!-- Add indicators around the circle -->
-    <model name="circle_indicators">
+    <!-- X-axis main line -->
+    <model name="x_axis_line">
       <static>true</static>
-      <link name="indicators_link">
-        <!-- Indicators placed at 15-degree intervals -->
-        <!-- 0° -->
-        <visual name="indicator_0">
-          <pose>3 0 0.01 0 1.57 0</pose>
+      <link name="x_axis_link">
+        <visual name="x_axis_visual">
+          <pose>0 0 0.01 0 0 0</pose> <!-- Slightly above the floor -->
           <geometry>
-            <cylinder>
-              <radius>0.03</radius>
-              <length>4</length>
-            </cylinder>
+            <box>
+              <size>5 0.1 0.01</size> <!-- Main X-axis line -->
+            </box>
           </geometry>
           <material>
-            <ambient>0 0 0 1</ambient> <!-- Black -->
+            <ambient>1 0 0 1</ambient> <!-- Red color -->
+            <diffuse>1 0 0 1</diffuse>
           </material>
         </visual>
 
-        <!-- 15° -->
-        <visual name="indicator_15">
-          <pose>2.89 0.78 0.01 0 1.57 0.26</pose>
+        <!-- Thin black lines at +0.2 and -0.2 meters on Y-axis -->
+        <visual name="x_axis_black_positive">
+          <pose>0 0.2 0.01 0 0 0</pose> <!-- +0.2 meters from X-axis -->
           <geometry>
-            <cylinder>
-              <radius>0.03</radius>
-              <length>4</length>
-            </cylinder>
+            <box>
+              <size>5 0.02 0.01</size> <!-- Thin black line -->
+            </box>
           </geometry>
           <material>
-            <ambient>1 1 0 1</ambient> <!-- Yellow -->
+            <ambient>0 0 0 1</ambient> <!-- Black color -->
+            <diffuse>0 0 0 1</diffuse>
           </material>
         </visual>
-
-        <!-- 30° -->
-        <visual name="indicator_30">
-          <pose>2.6 1.5 0.01 0 1.57 0.52</pose>
+        <visual name="x_axis_black_negative">
+          <pose>0 -0.2 0.01 0 0 0</pose> <!-- -0.2 meters from X-axis -->
           <geometry>
-            <cylinder>
-              <radius>0.03</radius>
-              <length>4</length>
-            </cylinder>
+            <box>
+              <size>5 0.02 0.01</size> <!-- Thin black line -->
+            </box>
           </geometry>
           <material>
-            <ambient>0 0 0 1</ambient> <!-- Black -->
-          </material>
-        </visual>
-
-        <!-- 45° -->
-        <visual name="indicator_45">
-          <pose>2.12 2.12 0.01 0 1.57 0.79</pose>
-          <geometry>
-            <cylinder>
-              <radius>0.03</radius>
-              <length>4</length>
-            </cylinder>
-          </geometry>
-          <material>
-            <ambient>1 1 0 1</ambient> <!-- Yellow -->
-          </material>
-        </visual>
-
-        <!-- 60° -->
-        <visual name="indicator_60">
-          <pose>1.5 2.6 0.01 0 1.57 1.05</pose>
-          <geometry>
-            <cylinder>
-              <radius>0.03</radius>
-              <length>4</length>
-            </cylinder>
-          </geometry>
-          <material>
-            <ambient>0 0 0 1</ambient> <!-- Black -->
-          </material>
-        </visual>
-
-        <!-- 75° -->
-        <visual name="indicator_75">
-          <pose>0.78 2.89 0.01 0 1.57 1.31</pose>
-          <geometry>
-            <cylinder>
-              <radius>0.03</radius>
-              <length>4</length>
-            </cylinder>
-          </geometry>
-          <material>
-            <ambient>1 1 0 1</ambient> <!-- Yellow -->
-          </material>
-        </visual>
-
-        <!-- 90° -->
-        <visual name="indicator_90">
-          <pose>0 3 0.01 0 1.57 1.57</pose>
-          <geometry>
-            <cylinder>
-              <radius>0.03</radius>
-              <length>4</length>
-            </cylinder>
-          </geometry>
-          <material>
-            <ambient>0 0 0 1</ambient> <!-- Black -->
-          </material>
-        </visual>
-
-        <!-- 105° -->
-        <visual name="indicator_105">
-          <pose>-0.78 2.89 0.01 0 1.57 1.83</pose>
-          <geometry>
-            <cylinder>
-              <radius>0.03</radius>
-              <length>4</length>
-            </cylinder>
-          </geometry>
-          <material>
-            <ambient>1 1 0 1</ambient> <!-- Yellow -->
-          </material>
-        </visual>
-
-        <!-- 120° -->
-        <visual name="indicator_120">
-          <pose>-1.5 2.6 0.01 0 1.57 2.09</pose>
-          <geometry>
-            <cylinder>
-              <radius>0.03</radius>
-              <length>4</length>
-            </cylinder>
-          </geometry>
-          <material>
-            <ambient>0 0 0 1</ambient> <!-- Black -->
-          </material>
-        </visual>
-
-        <!-- 135° -->
-        <visual name="indicator_135">
-          <pose>-2.12 2.12 0.01 0 1.57 2.36</pose>
-          <geometry>
-            <cylinder>
-              <radius>0.03</radius>
-              <length>4</length>
-            </cylinder>
-          </geometry>
-          <material>
-            <ambient>1 1 0 1</ambient> <!-- Yellow -->
-          </material>
-        </visual>
-
-        <!-- 150° -->
-        <visual name="indicator_150">
-          <pose>-2.6 1.5 0.01 0 1.57 2.62</pose>
-          <geometry>
-            <cylinder>
-              <radius>0.03</radius>
-              <length>4</length>
-            </cylinder>
-          </geometry>
-          <material>
-            <ambient>0 0 0 1</ambient> <!-- Black -->
-          </material>
-        </visual>
-
-        <!-- 165° -->
-        <visual name="indicator_165">
-          <pose>-2.89 0.78 0.01 0 1.57 2.88</pose>
-          <geometry>
-            <cylinder>
-              <radius>0.03</radius>
-              <length>4</length>
-            </cylinder>
-          </geometry>
-          <material>
-            <ambient>1 1 0 1</ambient> <!-- Yellow -->
-          </material>
-        </visual>
-
-        <!-- 180° -->
-        <visual name="indicator_180">
-          <pose>-3 0 0.01 0 1.57 3.14</pose>
-          <geometry>
-            <cylinder>
-              <radius>0.03</radius>
-              <length>4</length>
-            </cylinder>
-          </geometry>
-          <material>
-            <ambient>0 0 0 1</ambient> <!-- Black -->
-          </material>
-        </visual>
-
-        <!-- 195° -->
-        <visual name="indicator_195">
-          <pose>-2.89 -0.78 0.01 0 1.57 -2.88</pose>
-          <geometry>
-            <cylinder>
-              <radius>0.03</radius>
-              <length>4</length>
-            </cylinder>
-          </geometry>
-          <material>
-            <ambient>1 1 0 1</ambient> <!-- Yellow -->
-          </material>
-        </visual>
-
-        <!-- 210° -->
-        <visual name="indicator_210">
-          <pose>-2.6 -1.5 0.01 0 1.57 -2.62</pose>
-          <geometry>
-            <cylinder>
-              <radius>0.03</radius>
-              <length>4</length>
-            </cylinder>
-          </geometry>
-          <material>
-            <ambient>0 0 0 1</ambient> <!-- Black -->
-          </material>
-        </visual>
-
-        <!-- 225° -->
-        <visual name="indicator_225">
-          <pose>-2.12 -2.12 0.01 0 1.57 -2.36</pose>
-          <geometry>
-            <cylinder>
-              <radius>0.03</radius>
-              <length>4</length>
-            </cylinder>
-          </geometry>
-          <material>
-            <ambient>1 1 0 1</ambient> <!-- Yellow -->
-          </material>
-        </visual>
-
-        <!-- 240° -->
-        <visual name="indicator_240">
-          <pose>-1.5 -2.6 0.01 0 1.57 -2.09</pose>
-          <geometry>
-            <cylinder>
-              <radius>0.03</radius>
-              <length>4</length>
-            </cylinder>
-          </geometry>
-          <material>
-            <ambient>0 0 0 1</ambient> <!-- Black -->
-          </material>
-        </visual>
-
-        <!-- 255° -->
-        <visual name="indicator_255">
-          <pose>-0.78 -2.89 0.01 0 1.57 -1.83</pose>
-          <geometry>
-            <cylinder>
-              <radius>0.03</radius>
-              <length>4</length>
-            </cylinder>
-          </geometry>
-          <material>
-            <ambient>1 1 0 1</ambient> <!-- Yellow -->
-          </material>
-        </visual>
-
-        <!-- 270° -->
-        <visual name="indicator_270">
-          <pose>0 -3 0.01 0 1.57 -1.57</pose>
-          <geometry>
-            <cylinder>
-              <radius>0.03</radius>
-              <length>4</length>
-            </cylinder>
-          </geometry>
-          <material>
-            <ambient>0 0 0 1</ambient> <!-- Black -->
-          </material>
-        </visual>
-
-        <!-- 285° -->
-        <visual name="indicator_285">
-          <pose>0.78 -2.89 0.01 0 1.57 -1.31</pose>
-          <geometry>
-            <cylinder>
-              <radius>0.03</radius>
-              <length>4</length>
-            </cylinder>
-          </geometry>
-          <material>
-            <ambient>1 1 0 1</ambient> <!-- Yellow -->
-          </material>
-        </visual>
-
-        <!-- 300° -->
-        <visual name="indicator_300">
-          <pose>1.5 -2.6 0.01 0 1.57 -1.05</pose>
-          <geometry>
-            <cylinder>
-              <radius>0.03</radius>
-              <length>4</length>
-            </cylinder>
-          </geometry>
-          <material>
-            <ambient>0 0 0 1</ambient> <!-- Black -->
-          </material>
-        </visual>
-
-        <!-- 315° -->
-        <visual name="indicator_315">
-          <pose>2.12 -2.12 0.01 0 1.57 -0.79</pose>
-          <geometry>
-            <cylinder>
-              <radius>0.03</radius>
-              <length>4</length>
-            </cylinder>
-          </geometry>
-          <material>
-            <ambient>1 1 0 1</ambient> <!-- Yellow -->
-          </material>
-        </visual>
-
-        <!-- 330° -->
-        <visual name="indicator_330">
-          <pose>2.6 -1.5 0.01 0 1.57 -0.52</pose>
-          <geometry>
-            <cylinder>
-              <radius>0.03</radius>
-              <length>4</length>
-            </cylinder>
-          </geometry>
-          <material>
-            <ambient>0 0 0 1</ambient> <!-- Black -->
-          </material>
-        </visual>
-
-        <!-- 345° -->
-        <visual name="indicator_345">
-          <pose>2.89 -0.78 0.01 0 1.57 -0.26</pose>
-          <geometry>
-            <cylinder>
-              <radius>0.03</radius>
-              <length>4</length>
-            </cylinder>
-          </geometry>
-          <material>
-            <ambient>1 1 0 1</ambient> <!-- Yellow -->
-          </material>
-        </visual>
-
-        <!-- 360° -->
-        <visual name="indicator_360">
-          <pose>3 0 0.01 0 1.57 0</pose>
-          <geometry>
-            <cylinder>
-              <radius>0.03</radius>
-              <length>4</length>
-            </cylinder>
-          </geometry>
-          <material>
-            <ambient>0 0 0 1</ambient> <!-- Black -->
+            <ambient>0 0 0 1</ambient> <!-- Black color -->
+            <diffuse>0 0 0 1</diffuse>
           </material>
         </visual>
       </link>
     </model>
+
+    <!-- Y-axis main line -->
+    <model name="y_axis_line">
+      <static>true</static>
+      <link name="y_axis_link">
+        <visual name="y_axis_visual">
+          <pose>0 0 0.01 0 0 1.5708</pose> <!-- Rotate 90 degrees for Y-axis -->
+          <geometry>
+            <box>
+              <size>5 0.1 0.01</size> <!-- Main Y-axis line -->
+            </box>
+          </geometry>
+          <material>
+            <ambient>0 1 0 1</ambient> <!-- Green color -->
+            <diffuse>0 1 0 1</diffuse>
+          </material>
+        </visual>
+
+        <!-- Thin black lines at +0.2 and -0.2 meters on X-axis -->
+        <visual name="y_axis_black_positive">
+          <pose>0.2 0 0.01 0 0 1.5708</pose> <!-- +0.2 meters from Y-axis -->
+          <geometry>
+            <box>
+              <size>5 0.02 0.01</size> <!-- Thin black line -->
+            </box>
+          </geometry>
+          <material>
+            <ambient>0 0 0 1</ambient> <!-- Black color -->
+            <diffuse>0 0 0 1</diffuse>
+          </material>
+        </visual>
+        <visual name="y_axis_black_negative">
+          <pose>-0.2 0 0.01 0 0 1.5708</pose> <!-- -0.2 meters from Y-axis -->
+          <geometry>
+            <box>
+              <size>5 0.02 0.01</size> <!-- Thin black line -->
+            </box>
+          </geometry>
+          <material>
+            <ambient>0 0 0 1</ambient> <!-- Black color -->
+            <diffuse>0 0 0 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
   </world>
 </sdf>
