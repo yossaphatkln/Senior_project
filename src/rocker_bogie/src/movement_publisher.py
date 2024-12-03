@@ -7,7 +7,7 @@ import tf
 import math
 
 # Wheel base distance (distance between left and right wheels)
-WHEEL_BASE = 0.35
+WHEEL_DISTANCE = 0.35
 WHEEL_RADIUS = 0.07
 
 # Initialize velocities for each wheel
@@ -56,7 +56,7 @@ def odometry_publisher():
 
         # Calculate linear and angular velocities
         vx = (left_avg + right_avg) / 2.0  # Linear velocity
-        vth = (right_avg - left_avg) * WHEEL_RADIUS / WHEEL_BASE  # Angular velocity
+        vth = (right_avg - left_avg) / WHEEL_DISTANCE  # Angular velocity * WHEEL_RADIUS
 
         # Update position
         dx = vx * math.cos(theta) * dt
