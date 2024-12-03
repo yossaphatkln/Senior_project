@@ -11,19 +11,6 @@ def rocker_bogie_tf_publisher():
     rate = rospy.Rate(10)  # Publish at 10 Hz
 
     while not rospy.is_shutdown():
-        # Transform from odom to base_link
-        # odom_to_base = TransformStamped()
-        # odom_to_base.header.stamp = rospy.Time.now()
-        # odom_to_base.header.frame_id = "odom"
-        # odom_to_base.child_frame_id = "base_link"
-        # odom_to_base.transform.translation.x = 0.0
-        # odom_to_base.transform.translation.y = 0.0
-        # odom_to_base.transform.translation.z = 0.0
-        # odom_to_base.transform.rotation.x = 0.0
-        # odom_to_base.transform.rotation.y = 0.0
-        # odom_to_base.transform.rotation.z = 0.0
-        # odom_to_base.transform.rotation.w = 1.0
-        # broadcaster.sendTransform(odom_to_base)
 
         base_to_footprint = TransformStamped()
         base_to_footprint.header.stamp = rospy.Time.now()
